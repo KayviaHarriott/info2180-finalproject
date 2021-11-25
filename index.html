@@ -1,1 +1,75 @@
+<!--
+	Cite
+	Title: Get data from database using AJAX, Javascript, PHP, MySQL
+	Author: Adnan Afzal
+	Availability: http://adnan-tech.com/get-data-from-database-using-ajax-javascript-php-mysql/
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INFO2180 Project 1</title>
+    <link  rel="stylesheet" href="styles.css" type="text/css">
+    <script src="app.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 
+</head> 
+<body>
+<div class="container">
+    <header>
+        <div class="header">
+            <h3>BugMe Issue Tracker</h1>
+        </div>
+    </header>
+
+    <main>
+        <div class="reload-content">
+
+                <div class="title">
+                    <h1>New User</h1>
+                </div>
+                <div class="new-user-content">
+                    <label id="f-name-label" for="f-name">Firstname</label>
+                    <br><input type="text" class="f-name-input" id="f-name" placeholder="">
+                    <br><br><label id="l-name-label" for="l-name">Lastname</label>
+                    <br><input type="text" class="l-name-input" id="l-name" placeholder="">
+                    <br><br><label id="p-word-label" for="p-word">Password</label>
+                    <br><input type="text" class="p-word-input" id="p-word" placeholder="">
+                    <br><br><label id="email-label" for="email">Email</label>
+                    <br><input type="text" class="email-input" id="email" placeholder="">
+                    <br><br><input type="submit" class="submit-button" id="submit-button" value="Submit">
+                </div>
+                
+                <!--
+                <form id="name-alias-form" action="#">
+                        <label id="name-alias-label" for="name-alias">Search by Full Name of Alias</label><br>
+                        <br><input type="text" class="name-alias-field" id="name-alias-field" placeholder="e.g. Captain America or Steve Rogers">
+                        <input type="submit" class="submit-button" id="submit-button" value="Submit">
+                </form>
+                <div>
+                    <div>
+						<h1>RESULT</h1>
+						<hr>
+                    </div>
+                        <div class="result" id="result">               
+                    </div>
+                </div>  
+                -->  
+        </div> 
+        
+	</main>
+
+    <aside>
+        <ul>            
+            <li><img src="imgs/home.png" class="home-icon" alt="home icon"><a href="#">Home</a></li>
+            <li><img src="imgs/user.png" class="user-icon"alt="user icon"><a href="#">Add User</a></li>
+            <li><img src="imgs/plus.png" class="new-issue-icon"alt="pls icon"><a href="#">New Issue</a></li>
+            <li><img src="imgs/power-off.png" class="logout-icon" alt="logout icon"><a href="#">Logout</a></li>
+        </ul>
+    </aside>
+</div>    
+    <footer>
+    </footer>
+</body>
+</html>
