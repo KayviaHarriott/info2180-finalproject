@@ -24,21 +24,22 @@
     </header>
 
     <main>
-        <div class="reload-content">
-
-                <div class="title">
+        <div class="reload-content" id="result">
+                <div class="title" id="title">
                     <h1>New User</h1>
                 </div>
                 <div class="new-user-content">
-                    <label id="f-name-label" for="f-name">Firstname</label>
-                    <br><input type="text" class="f-name-input" id="f-name" placeholder="">
-                    <br><br><label id="l-name-label" for="l-name">Lastname</label>
-                    <br><input type="text" class="l-name-input" id="l-name" placeholder="">
-                    <br><br><label id="p-word-label" for="p-word">Password</label>
-                    <br><input type="text" class="p-word-input" id="p-word" placeholder="">
-                    <br><br><label id="email-label" for="email">Email</label>
-                    <br><input type="text" class="email-input" id="email" placeholder="">
-                    <br><br><input type="submit" class="submit-button" id="submit-button" value="Submit">
+                    <form id="new-user-form" action="#">
+                        <label id="f-name-label" for="f-name">Firstname</label>
+                        <br><input type="text" class="f-name-input" id="f-name" placeholder="">
+                        <br><br><label id="l-name-label" for="l-name">Lastname</label>
+                        <br><input type="text" class="l-name-input" id="l-name" placeholder="">
+                        <br><br><label id="p-word-label" for="p-word">Password</label>
+                        <br><input type="text" class="p-word-input" id="p-word" placeholder="">
+                        <br><br><label id="email-label" for="email">Email</label>
+                        <br><input type="text" class="email-input" id="email" placeholder="">
+                        <br><br><input type="submit" class="submit-button" id="submit-button" value="Submit">
+                    </form>
                 </div>
                 
                 <!--
@@ -62,10 +63,10 @@
 
     <aside>
         <ul>            
-            <li><img src="imgs/home.png" class="home-icon" alt="home icon"><a href="#">Home</a></li>
-            <li><img src="imgs/user.png" class="user-icon"alt="user icon"><a href="#">Add User</a></li>
-            <li><img src="imgs/plus.png" class="new-issue-icon"alt="pls icon"><a href="#">New Issue</a></li>
-            <li><img src="imgs/power-off.png" class="logout-icon" alt="logout icon"><a href="#">Logout</a></li>
+            <li class="dashboard"><img src="imgs/home.png" class="home-icon" alt="home icon"><a href="#">Home</a></li>
+            <li class="add-user"><img src="imgs/user.png" class="user-icon"alt="user icon"><a href="#">Add User</a></li>
+            <li class="new-issue"><img src="imgs/plus.png" class="new-issue-icon"alt="pls icon"><a href="#">New Issue</a></li>
+            <li class="log-out"><img src="imgs/power-off.png" class="logout-icon" alt="logout icon"><a href="#">Logout</a></li>
         </ul>
     </aside>
 </div>    
