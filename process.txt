@@ -1,0 +1,3 @@
+Kayvia -: html, css, ajax javascript
+Jason -: php behind the ajax and the sql
+Alana & Maria -: data validation before submission, interactive side of php that sanitizes
