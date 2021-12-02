@@ -5,8 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     //TO-DO (add anything you think we need to do)
     //-- need event listeners for filters i.e. ALL, OPEN, MY TICKETS
-    //-- css needed for background to fill on homepage for <aside>/sidebar
+    //-- css needed for background to fill on homepage for <aside>/sidebar and be absolute
     //-- inline font images
+    //-- need to change inputs to without class in css?
 
 
     //-->Sign In Submission Form
