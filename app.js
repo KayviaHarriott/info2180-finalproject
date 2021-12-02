@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (true ) {
                     if (true ){
                         pageTitle.innerHTML = "<h1>Issues</h1>";
-      
+                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
                     }
                     
                 }
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById("title").innerHTML = " ";                    
                 }
         };
-        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true);
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true);  //change to the field to go to php
         xmlhttp.send(); 
     });  
 
@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (true ) {
                     if (true ){
                         pageTitle.innerHTML = "<h1>Issues</h1>";
+                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
       
                     }
                     
@@ -50,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById("title").innerHTML = " ";                    
                 }
         };
-        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true);
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true); //change to the field to go to php
         xmlhttp.send(); 
     });  
 
@@ -68,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (true ) {
                     if (true ){
                         pageTitle.innerHTML = "<h1>Issues</h1>";
+                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
       
                     }
                     
@@ -76,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById("title").innerHTML = " ";                    
                 }
         };
-        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true);
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true); //change to the field to go to php
         xmlhttp.send(); 
     });  
 
@@ -94,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (true ) {
                     if (true ){
                         pageTitle.innerHTML = "<h1>Issues</h1>";
+                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
       
                     }
                     
@@ -102,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById("title").innerHTML = " ";                    
                 }
         };
-        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true);
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true); //change to the field to go to php
         xmlhttp.send(); 
 
 
@@ -120,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (true ) {
                     if (true ){
                         pageTitle.innerHTML = "<h1>New User</h1>";
+                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
       
                     }
                     
@@ -128,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById("title").innerHTML = " ";                    
                 }
         };
-        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true);
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true); //change to the field to go to php
         xmlhttp.send(); 
 
         
@@ -146,6 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (true ) {
                     if (true ){
                         pageTitle.innerHTML = "<h1>New Issue</h1>";
+                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
       
                     }
                     
@@ -154,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById("title").innerHTML = " ";                    
                 }
         };
-        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true);
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true); //change to the field to go to php
         xmlhttp.send(); 
         
     });    
@@ -171,6 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (true ) {
                     if (true ){
                         pageTitle.innerHTML = "<h1>Sign In</h1>";
+                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
       
                     }
                     
@@ -179,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById("title").innerHTML = " ";                    
                 }
         };
-        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true);
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true); //change to the field to go to php
         xmlhttp.send(); 
     });    
 
