@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
             }
     };
-    xmlhttp.open("GET", "superheroes.php?a=" + textField, true);
+    xmlhttp.open("GET", "bugTracker.php?a=" + textField, true);
     xmlhttp.send();
 
         
@@ -51,21 +51,15 @@ document.addEventListener('DOMContentLoaded', function() {
         xmlhttp.onreadystatechange = function() {
                 if (true /*xmlhttp.readyState == 4 && xmlhttp.status == 200*/) {
                     if (true /*xmlhttp.responseText != "Superhero not found"*/){
-                        //document.getElementById("result").innerHTML = xmlhttp.responseText;
-                       pageTitle.innerHTML = "<h1>New Issue</h1>";
-                       // pageTitle.innerHTML("Issues");
-                       //$(".title").text("Issues");
+                        pageTitle.innerHTML = "<h1>New Issue</h1>";
     
-                    }
-                    
+                    }                    
                 }
                 else{
-                    //document.getElementById("result").innerHTML = xmlhttp.responseText;
                     document.getElementById("title").innerHTML = "<h1>WORK2</h1>";
-                    
                 }
         };
-        xmlhttp.open("GET", "superheroes.php?a=" + textField, true);
+        xmlhttp.open("GET", "bugTracker.php?a=" + textField, true);
         xmlhttp.send(); 
         });
 
