@@ -3,7 +3,11 @@ document.addEventListener('DOMContentLoaded', function() {
     var form = document.querySelector('form');
     var pageTitle = document.getElementById("title");  
     
-    
+    //TO-DO
+    //-- need event listeners for filters i.e. ALL, OPEN, MY TICKETS
+    //
+
+
     //-->Sign In Submission Form
     //-->not complete
     document.getElementsByClassName("dashboard")[0].addEventListener("click", function(event){
