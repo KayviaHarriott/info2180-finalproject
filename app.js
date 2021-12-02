@@ -3,9 +3,10 @@ document.addEventListener('DOMContentLoaded', function() {
     var form = document.querySelector('form');
     var pageTitle = document.getElementById("title");  
     
-    //TO-DO
+    //TO-DO (add anything you think we need to do)
     //-- need event listeners for filters i.e. ALL, OPEN, MY TICKETS
-    //
+    //-- css needed for background to fill on homepage for <aside>/sidebar
+    //-- inline font images
 
 
     //-->Sign In Submission Form

@@ -19,6 +19,10 @@ header{
     padding: 10px;
 }
 
+header h3{
+    display: inline;
+}
+
 main{
     grid-area: main;
 
@@ -79,11 +83,14 @@ li{
     margin-left: -20px;
 }
 
-.home-icon, .new-issue-icon, .user-icon, .logout-icon{
+.home-icon, .new-issue-icon, .user-icon, .logout-icon, .bug-icon{
+    display: inline;
     width: 20px;
     height: 20px;
     padding-right: 10px;
 }
+
+
 
 a:link {
     text-decoration: none;
