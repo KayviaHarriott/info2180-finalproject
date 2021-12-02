@@ -26,9 +26,20 @@
     <main>
         <div class="reload-content" id="result">
                 <div class="title" id="title">
-                    <h1>New User</h1>
+                    <h1>Sign In</h1>
                 </div>
-                <div class="new-user-content">
+                <div class="result" id="to-change">
+                    <form id="sign-in-form" action="#">
+                        <br><br><label id="email-label" for="email">Email</label>
+                        <br><input type="text" class="email-input" id="email" placeholder="">
+                        <br><br><label id="p-word-label" for="p-word">Password</label>
+                        <br><input type="password" class="p-word-input" id="p-word" placeholder="">                        
+                        <br><br><input type="submit" class="sign-in-button" id="sign-in-button" value="Submit">
+                    </form>
+                </div>
+
+                <!--
+                <div class="result" id="to-change">
                     <form id="new-user-form" action="#">
                         <label id="f-name-label" for="f-name">Firstname</label>
                         <br><input type="text" class="f-name-input" id="f-name" placeholder="">
@@ -41,22 +52,9 @@
                         <br><br><input type="submit" class="submit-button" id="submit-button" value="Submit">
                     </form>
                 </div>
-                
-                <!--
-                <form id="name-alias-form" action="#">
-                        <label id="name-alias-label" for="name-alias">Search by Full Name of Alias</label><br>
-                        <br><input type="text" class="name-alias-field" id="name-alias-field" placeholder="e.g. Captain America or Steve Rogers">
-                        <input type="submit" class="submit-button" id="submit-button" value="Submit">
-                </form>
-                <div>
-                    <div>
-						<h1>RESULT</h1>
-						<hr>
-                    </div>
-                        <div class="result" id="result">               
-                    </div>
-                </div>  
-                -->  
+                -->
+
+
         </div> 
         
 	</main>

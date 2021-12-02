@@ -36,7 +36,7 @@ aside{
 }
 
 
-#submit-button{
+#submit-button, #sign-in-button{
     display: inline;
     color: white;
     font-weight: 600;

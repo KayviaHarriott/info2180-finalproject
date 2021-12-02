@@ -1,66 +1,187 @@
 document.addEventListener('DOMContentLoaded', function() {
-    //alert("Document loads");
+    //alert("Document loaded");
     var form = document.querySelector('form');
-    //var textField = document.getElementsByClassName('name-alias-field')[0].value;
-
-    //first screen, new user to dashboard
-    document.getElementById("submit-button").addEventListener("click", function(event){
-    event.preventDefault()
-    //alert("Button works");
-   
-    var textField = document.getElementsByClassName('title')[0].value;
-    var pageTitle = document.getElementById("title");
-
-    var reloadarea = document.getElementById('result'); //content to reload
-
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-            if (true /*xmlhttp.readyState == 4 && xmlhttp.status == 200*/) {
-                if (true /*xmlhttp.responseText != "Superhero not found"*/){
-                    //document.getElementById("result").innerHTML = xmlhttp.responseText;
-                    pageTitle.innerHTML = "<h1>Issues</h1>";
-                    reloadarea.innerHTML = "here";
-
-                    // pageTitle.innerHTML("Issues");
-                   //$(".title").text("Issues");
-
-                }
-                
-            }
-            else{
-                //document.getElementById("result").innerHTML = xmlhttp.responseText;
-                document.getElementById("title").innerHTML = "<h1>WORK2</h1>";
-                
-            }
-    };
-    xmlhttp.open("GET", "bugTracker.php?a=" + textField, true);
-    xmlhttp.send();
-
-        
-    });
-
-    //for New Issue Page
-    document.getElementsByClassName("new-issue")[0].addEventListener("click", function(event){
-        event.preventDefault()
-       
-        var textField = document.getElementsByClassName('title')[0].value;    
-        var pageTitle = document.getElementById("title");
-        //? pageTitle.innerHTML = "<h1>New Issue</h1>";
+    var pageTitle = document.getElementById("title");  
     
+    
+    //-->Sign In Submission Form
+    //-->not complete
+    document.getElementsByClassName("dashboard")[0].addEventListener("click", function(event){
+        event.preventDefault()
+        //alert("Dashboard button listener works");
+        var pageTitle = document.getElementById("title"); 
+        //var textField = document.getElementsByClassName('title')[0].value; //placeholder
+        
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
-                if (true /*xmlhttp.readyState == 4 && xmlhttp.status == 200*/) {
-                    if (true /*xmlhttp.responseText != "Superhero not found"*/){
-                        pageTitle.innerHTML = "<h1>New Issue</h1>";
-    
-                    }                    
+                if (true ) {
+                    if (true ){
+                        pageTitle.innerHTML = "<h1>Issues</h1>";
+      
+                    }
+                    
                 }
                 else{
-                    document.getElementById("title").innerHTML = "<h1>WORK2</h1>";
+                    document.getElementById("title").innerHTML = " ";                    
                 }
         };
-        xmlhttp.open("GET", "bugTracker.php?a=" + textField, true);
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true);
         xmlhttp.send(); 
-        });
+    });  
+
+    //-->New Issue Submission Form
+    //-->not complete
+    document.getElementsByClassName("dashboard")[0].addEventListener("click", function(event){
+        event.preventDefault()
+        //alert("Dashboard button listener works");
+        var pageTitle = document.getElementById("title"); 
+        //var textField = document.getElementsByClassName('title')[0].value; //placeholder
+        
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+                if (true ) {
+                    if (true ){
+                        pageTitle.innerHTML = "<h1>Issues</h1>";
+      
+                    }
+                    
+                }
+                else{
+                    document.getElementById("title").innerHTML = " ";                    
+                }
+        };
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true);
+        xmlhttp.send(); 
+    });  
+
+
+    //-->New User Submission Form
+    //-->not complete
+    document.getElementsByClassName("dashboard")[0].addEventListener("click", function(event){
+        event.preventDefault()
+        //alert("Dashboard button listener works");
+        var pageTitle = document.getElementById("title"); 
+        //var textField = document.getElementsByClassName('title')[0].value; //placeholder
+        
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+                if (true ) {
+                    if (true ){
+                        pageTitle.innerHTML = "<h1>Issues</h1>";
+      
+                    }
+                    
+                }
+                else{
+                    document.getElementById("title").innerHTML = " ";                    
+                }
+        };
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true);
+        xmlhttp.send(); 
+    });  
+
+
+
+    //-->Home/Dashboard Link
+    document.getElementsByClassName("dashboard")[0].addEventListener("click", function(event){
+        event.preventDefault()
+        //alert("Dashboard button listener works");
+        var pageTitle = document.getElementById("title"); 
+        //var textField = document.getElementsByClassName('title')[0].value; //placeholder
+        
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+                if (true ) {
+                    if (true ){
+                        pageTitle.innerHTML = "<h1>Issues</h1>";
+      
+                    }
+                    
+                }
+                else{
+                    document.getElementById("title").innerHTML = " ";                    
+                }
+        };
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true);
+        xmlhttp.send(); 
+
+
+    });    
+
+    //-->Add User Link
+    document.getElementsByClassName("add-user")[0].addEventListener("click", function(event){
+        event.preventDefault()
+        //alert("Add user button listener works");
+        var pageTitle = document.getElementById("title"); 
+        //var textField = document.getElementsByClassName('title')[0].value; //placeholder
+        
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+                if (true ) {
+                    if (true ){
+                        pageTitle.innerHTML = "<h1>New User</h1>";
+      
+                    }
+                    
+                }
+                else{
+                    document.getElementById("title").innerHTML = " ";                    
+                }
+        };
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true);
+        xmlhttp.send(); 
+
+        
+    });    
+
+    //-->New Issue Link
+    document.getElementsByClassName("new-issue")[0].addEventListener("click", function(event){
+        event.preventDefault()
+        //alert("New issue button listener works");
+        var pageTitle = document.getElementById("title"); 
+        //var textField = document.getElementsByClassName('title')[0].value; //placeholder
+        
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+                if (true ) {
+                    if (true ){
+                        pageTitle.innerHTML = "<h1>New Issue</h1>";
+      
+                    }
+                    
+                }
+                else{
+                    document.getElementById("title").innerHTML = " ";                    
+                }
+        };
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true);
+        xmlhttp.send(); 
+        
+    });    
+
+    //-->Logout Link
+    document.getElementsByClassName("log-out")[0].addEventListener("click", function(event){
+        event.preventDefault()
+        //alert("Logout button listener works");
+        var pageTitle = document.getElementById("title"); 
+        //var textField = document.getElementsByClassName('title')[0].value; //placeholder
+        
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+                if (true ) {
+                    if (true ){
+                        pageTitle.innerHTML = "<h1>Sign In</h1>";
+      
+                    }
+                    
+                }
+                else{
+                    document.getElementById("title").innerHTML = " ";                    
+                }
+        };
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle, true);
+        xmlhttp.send(); 
+    });    
+
 
 });
