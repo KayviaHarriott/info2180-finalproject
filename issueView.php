@@ -13,7 +13,8 @@ function getIssues() {
     $result = [];
     for ($i = 0; $i < 3; $i++) {
         $iObj = [
-            "title"       => "Issue {$i}",
+            "id"       => "{$i}",
+            "title"       => "Issue",
             "type"        => "BUG",
             "status"      => "{$statusLst[$i]}",
             "assignedTo"  => "person",
@@ -52,7 +53,7 @@ $issueLst = getIssues(); ?>
     } // End-switch-case ?>
 
     <tr>
-        <td><?= $i["title"] ?></td>
+        <td><div class="issue-id">#<?= $i["id"] ?></div> <?= $i["title"] ?></td>
         <td><?= $i["type"] ?></td>
         <td class=<?= $type ?>><?= $i["status"] ?></td>
         <td><?= $i["assignedTo"] ?></td>
