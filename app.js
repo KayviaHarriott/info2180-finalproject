@@ -20,12 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var pageTitle = document.getElementById("title");
         //var textField = document.getElementsByClassName('title')[0].value; //placeholder
 
-       /* //sanitise inputs
-        let fname = document.querySelector("#f-name").value.replace( /(<([^>]+)>)/ig, "");
-        let lname = document.querySelector("#l-name").value.replace( /(<([^>]+)>)/ig, "");
-        let pword = document.querySelector("#p-word").value.replace( /(<([^>]+)>)/ig, "");
-        let email = document.querySelector("#email").value.replace( /(<([^>]+)>)/ig, "");
-*/
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
                 if (true ) {
