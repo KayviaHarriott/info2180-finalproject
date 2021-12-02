@@ -42,6 +42,9 @@ CREATE TABLE `issues` (
 -- Data for `users` table
 --
 
+
+
+
 -- REMEMBER TO HASH THE PASSWORD AND COPY THE HASH HERE
 INSERT INTO `users` (
     `firstname`,
@@ -52,12 +55,14 @@ VALUES
 (
     'John',
     'Doe',
+    /** Hash for Passwords written in SQL -> HashBytes('SHA2_512', LTRIM(RTRIM('password123')) )*/
     'password123',
     'admin@project2.com'
 ),
 (
     'Jane',
     'Berry',
+    /** Hash for Passwords written in SQL -> HashBytes('SHA2_512', LTRIM(RTRIM('password1')) )*/
     'password1',
     'janeberyy@example.com'
 );
@@ -84,3 +89,5 @@ VALUES
     1,
     1
 );
+
+
