@@ -55,7 +55,8 @@ VALUES
 (
     'John',
     'Doe',
-    /** Hash for Passwords written in SQL -> HashBytes('SHA2_512', LTRIM(RTRIM('password123')) )*/
+    /** Hash for Passwords written in SQL -> HashBytes('SHA2_512', LTRIM(RTRIM('password123')) ) 
+    LTRIM is left trim which just removes any whitespace to the left of the password & RTRIM removes whitespace to the right of the password*/
     'password123',
     'admin@project2.com'
 ),
