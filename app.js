@@ -8,15 +8,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     //TO-DO (add anything you think we need to do)
-    //-- need event listeners for filters i.e. ALL, OPEN, MY TICKETS
     //-- css needed for background to fill on homepage for <aside>/sidebar and be absolute
     //-- inline font images
     //-- need to change inputs to without class in css?
-    //--The issue view gets called 3 times when you click on the home button 
-    //--(I'm assuming that's because there's 3 identical code snippets that are to be completed)
-    //-- and clicking on the other buttons only loads the page after 2 clicks
-    //-- we need to check the password entered before going to new user, to make sure password has the
-    //-- needed characters, format etc
+    //-- we need to check the password entered before going to new user, to make sure password has the needed characters, format etc
+    //-- users cant click other buttons until they sign in
+    //-- need 'new issue button' on home/dashboard
 
 
 
@@ -139,6 +136,39 @@ document.addEventListener('DOMContentLoaded', function() {
         xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
         xmlhttp.send();
     });
+
+
+    //-->Change Filters (Change class name)
+    var btm = document.getElementById("title");
+    btm.addEventListener("click", function(event){
+        event.preventDefault();
+        alert("Logout button listener works");
+        
+        var pageTitle = document.getElementById("title");
+        //var textField = document.getElementsByClassName('title')[0].value; //placeholder
+
+        var xmlhttp = new XMLHttpRequest();
+        //change class here
+
+        //remove from css classes from other filter buttons
+
+        xmlhttp.onreadystatechange = function() {
+                pageTitle.innerHTML = "<h1>Sign In</h1>";
+                if (this.readyState == 4 && this.status == 200  ) {
+                    //if (true ){
+                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
+
+                    //}
+
+                }
+                else{
+                    document.getElementById("title").innerHTML = " ";
+                }
+        };
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
+        xmlhttp.send();
+    });
+
 
 
 });
