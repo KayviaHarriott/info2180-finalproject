@@ -1,5 +1,13 @@
+-- You may need to run the commented out lines as a user with permission to
+-- create users and grant permissions
+
+-- CREATE USER IF NOT EXISTS bugmeAdmin IDENTIFIED BY 'password123';
+
 DROP DATABASE IF EXISTS `bugme`;
 CREATE DATABASE `bugme`;
+
+-- GRANT ALL PRIVILEGES ON bugme.* TO bugmeAdmin;
+
 USE `bugme`;
 
 DROP TABLE IF EXISTS `users`;
@@ -27,7 +35,7 @@ CREATE TABLE `issues` (
     `description` text NOT NULL,
     `type` varchar(200) NOT NULL,
     `priority` varchar(200) NOT NULL,
-    `status` varchar(200) NOT NULL,
+    `status` varchar(200) NOT NULL DEFAULT "OPEN",
     `assigned_to` int(11) NOT NULL,
     `created_by` int(11) NOT NULL,
     `created` datetime NOT NULL DEFAULT current_timestamp(),
@@ -55,7 +63,7 @@ VALUES
 (
     'John',
     'Doe',
-    /** Hash for Passwords written in SQL -> HashBytes('SHA2_512', LTRIM(RTRIM('password123')) ) 
+    /** Hash for Passwords written in SQL -> HashBytes('SHA2_512', LTRIM(RTRIM('password123')) )
     LTRIM is left trim which just removes any whitespace to the left of the password & RTRIM removes whitespace to the right of the password*/
     'password123',
     'admin@project2.com'
@@ -84,9 +92,36 @@ VALUES
 (
     'Cannot log into computer',
     'Hi Team I am unable to login to my computer',
-    'Support',
-    'High',
-    'Open',
+    'Bug',
+    'Minor',
+    'OPEN',
+    1,
+    1
+),
+(
+    'Cannot log into computer',
+    'Hi Team I am unable to login to my computer',
+    'Proposal',
+    'Major',
+    'IN PROGRESS',
+    1,
+    1
+),
+(
+    'Cannot log into computer',
+    'Hi Team I am unable to login to my computer',
+    'Task',
+    'Critical',
+    'CLOSED',
+    1,
+    1
+),
+(
+    'Cannot log into computer',
+    'Hi Team I am unable to login to my computer',
+    'Bug',
+    'Minor',
+    'OPEN',
     1,
     1
 );

@@ -1,63 +1,145 @@
 <?php
+include_once "dataMgmt.php";
 
-function filterData(String $data) {
-    $result = $data;
+//GLOBAL $bugTrackerDB = connectToDB();
 
-    $filters = [
-        "striptags" => FILTER_SANITIZE_SPECIAL_CHARS,
-        "string"    => FILTER_SANITIZE_STRING
-    ];
-    $filterFlags = [
-        "striptags" => [FILTER_FLAG_STRIP_HIGH],
-        "string"    => [FILTER_FLAG_STRIP_HIGH]
-    ];
-    $filterOrder = ["striptags", "string"];
+if (array_key_exists("a", $_GET)){
+    $page = filterData($_REQUEST["a"]);
 
-    foreach ($filterOrder as $f) {
-        $result = filter_var($result, $filters[$f], $filterFlags[$f]);
+    switch ($page):
+        case "New User":
+            include "newUserView.php";
+            break;
+        case "Sign In":
+            include "signInView.php";
+            break;
+        case "New Issue":
+            include "newIssueView.php";
+            break;
+        case "Issues":
+            include "issueView.php";
+            break;
+        default: ?>
+            <h1 class="server-error">Page Not Found</h1>
+            <?php break;
+    endswitch;
+} // End-if
+
+if (array_key_exists("a", $_POST)){
+    $action = filterData($_POST["a"]);
+
+    switch ($action) {
+        case "add-user":
+            addUser();
+            break;
+        case "sign-in":
+            //
+            break;
+        case "log-out":
+            //
+            break;
+        case "add-issue":
+            addIssue();
+            break;
+        default:
+            // Respond with a 404 or something
+            echo "Error";
+            break;
+    } // End-switch-case
+} // End-if
+
+function addUser() {
+    $alpha = "A-Za-z";
+    $alphaNum = "${alpha}0-9";
+    $tld = "\.[${alpha}][${alphaNum}]*";
+    $hostname = "[${alpha}][${alphaNum}\-]*[${alphaNum}]";
+    $username = "[${alpha}][${alphaNum}\-\.]*[${alphaNum}]";
+
+    $realNameRegex = "/^[{$alpha}]+$/";
+    $emailRegex = "/^${username}@${hostname}${tld}$/";
+
+    foreach ($_POST as $k => $v) {
+        $err = [];
+        switch ($k) {
+            case "f-name":
+                if (preg_match($realNameRegex, $v) != 1) {
+                    $err[$k] = false;
+                } // End-if
+                break;
+            case "l-name":
+                if (preg_match($realNameRegex, $v) != 1) {
+                    $err[$k] = false;
+                } // End-if
+                break;
+            case "email":
+                if (preg_match($emailRegex, $v) != 1) {
+                    $err[$k] = false;
+                } // End-if
+                break;
+            default:
+                // Do nothing
+                break;
+        } // End-switch-case
     } // End-foreach
 
-    return $result;
-} // End-filterData
+    if (count($err) == 0) {
+        echo "TEST";
+        // Hash the password and add the new user
+    } // End-if
+} // End-addUser
 
-//--------------------------Backend for AJAX Queries--------------------------
-
-$page = filterData($_REQUEST["a"]);
-
-switch ($page):
-    case "New User":
-        include "newUserView.php";
-        break;
-    case "Sign In":
-        include "signInView.php";
-        break;
-    case "New Issue":
-        include "newIssueView.php";
-        break;
-    case "Issues":
-        include "issueView.php";
-        break;
-    default: ?>
-        <h1 class="server-error">Page Not Found</h1>
-        <?php break;
-endswitch;
-
-//--------------------------Data Management Functions-------------------------
-
-/**
- * @brief Adds a new issue to the database
- *
- * @param Type <var> Description
- * @return type
- * @throws conditon
- */
 function addIssue() {
-    //
+    $alpha = "A-Za-z";
+    $alphaNum = "${alpha}0-9";
+    $tld = "\.[${alpha}][${alphaNum}]*";
+    $hostname = "[${alpha}][${alphaNum}\-]*[${alphaNum}]";
+    $username = "[${alpha}][${alphaNum}\-\.]*[${alphaNum}]";
+
+    $realNameRegex = "/^[{$alpha}]+$/";
+    $emailRegex = "/^${username}@${hostname}${tld}$/";
+
+    foreach ($_POST as $k => $v) {
+        $err = [];
+        switch ($k) {
+            case "title":
+                if (preg_match("/^[\w]+$/", $v) != 1) {
+                    $err[$k] = false;
+                } // End-if
+                break;
+            case "desc":
+                if (preg_match("/^[\w]+$/", $v) != 1) {
+                    $err[$k] = false;
+                } // End-if
+                break;
+            case "assign":
+                if (preg_match("/^[\d]+$/", $v) != 1) {
+                    $err[$k] = false;
+                } // End-if
+                break;
+            case "type":
+                if (preg_match("/^(Bug)|(Proposal)|(Task)$/", $v) != 1) {
+                    $err[$k] = false;
+                } // End-if
+                break;
+            case "priority":
+                if (preg_match("/^(Minor)|(Major)|(Critical)$/", $v) != 1) {
+                    $err[$k] = false;
+                } // End-if
+                break;
+            default:
+                // Do nothing
+                break;
+        } // End-switch-case
+    } // End-foreach
+
+    if (count($err) == 0) {
+        $data = [];
+        $attributes = ["title", "desc", "type", "pri", "assign", "creator"];
+        foreach ($attributes as $a) {
+            $data[$a] = $_POST[$a];
+        } // End-foreach
+        createIssue($data);
+    } // End-if
 } // End-addIssue
-
-
-// Get all the data from the POST request, filter it and then use the methods
-// above to add the issue to the database or modify the issue
-//$issueData = filterData($_POST["a"]);
 
 ?>
