@@ -27,6 +27,13 @@ function getIssues() {
 
 $issueLst = getIssues(); ?>
 
+<div id="filter" class="filter">
+    <span><p>Filter by: </p></span>
+    <a class="selected-filter" id="all-button" href="#">ALL</a>
+    <a id="open-button" href="#">OPEN</a>
+    <a id="my-tickets-button"href="#">MY TICKETS</a>
+</div>
+
 <table id="issues-table">
     <tr class="table-header">
         <th id='table-title'>Title</th>
@@ -53,7 +60,7 @@ $issueLst = getIssues(); ?>
     } // End-switch-case ?>
 
     <tr>
-        <td><div class="issue-id">#<?= $i["id"] ?></div> <?= $i["title"] ?></td>
+        <td><span>#<?= $i["id"] ?></span> <?= $i["title"] ?></td>
         <td><?= $i["type"] ?></td>
         <td class=<?= $type ?>><?= $i["status"] ?></td>
         <td><?= $i["assignedTo"] ?></td>
