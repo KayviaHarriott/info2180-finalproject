@@ -143,7 +143,7 @@ function createUser($uData) {
 
     $stmt->bindParam(":uFname", $data["fname"]);
     $stmt->bindParam(":uLname", $data["lname"]);
-    $stmt->bindParam(":uPasswd", $data["passwd"]);
+    $stmt->bindParam(":uPasswd", password_hash($data["passwd"]));
     $stmt->bindParam(":uEmail", $data["email"]);
 
     $stmt->execute();

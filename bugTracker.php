@@ -33,7 +33,7 @@ if (array_key_exists("a", $_POST)){
             addUser();
             break;
         case "sign-in":
-            //
+            echo "<h1>TESTING</h1>";
             break;
         case "log-out":
             //
