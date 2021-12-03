@@ -15,5 +15,5 @@
 <br>
 <input type="text" class="email-input" id="email" placeholder=""/>
 <br><br>
-<input type="submit" class="submit-button" id="submit-button" value="Submit"/>
+<input type="submit"  class="new-user-button" id="new-user-button" value="Submit"/>
 </form>

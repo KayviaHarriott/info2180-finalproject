@@ -40,7 +40,7 @@ aside{
 }
 
 
-#submit-button, #sign-in-button{
+#submit-button, #sign-in-button, #new-user-button{
     display: inline;
     color: white;
     font-weight: 600;
