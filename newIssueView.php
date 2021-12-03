@@ -1,6 +1,7 @@
 <form id="new-issue-form" action="#">
 <label id="i-title-label" for="i-title">Title</label><br>
 <input type="text" class="i-title-input" id="i-title" name="issueTitle" placeholder=""/><br>
+
 <?php    
     $input1 = $_POST["issueTitle"];
 
@@ -10,6 +11,7 @@
     $specialChars = preg_match('#[^\w]#', $input1);     //check for special characters
     
     // Validate first name -> should only contain letters regardless of the case
+
     if(!$uppercase || !$lowercase) {
         if ($number || $specialChars || strlen($input1) < 1){
         ?><p style="color:red; font-weight:bold">*Title should not have numbers or special characters. </p>
@@ -62,5 +64,5 @@
 <?php endforeach;?>
 </select><br><br>
 
-<input type="submit"  class="new-issue-button" id="new-issue-button" value="Submit"/>
+<input type="submit"  class="new-submit-issue-button" id="new-submit-issue-button" value="Submit"/>
 </form>
