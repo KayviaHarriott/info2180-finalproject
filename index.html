@@ -24,16 +24,22 @@
                     <h1>Sign In</h1>
                 </div>
                 <div class="result" id="to-change"> <!--Would like this to be #result-->
-                    <form id="sign-in-form" action="#">
+                     <form id="sign-in-form" action="#">
                         <br><br><label id="email-label" for="email">Email</label>
                         <br><input type="text" class="email-input" id="email" placeholder="">
                         <br><br><label id="p-word-label" for="p-word">Password</label>
                         <br><input type="password" class="p-word-input" id="p-word" placeholder="">                        
                         <br><br><input type="submit" class="sign-in-button" id="sign-in-button" value="Submit">
-                    </form>
+                    </form> 
 
-                    <!--Test table for css-->
-                    <!--
+                    <!--Test table for css--><!--
+                    <div id="filter" class="filter">
+                        <span><p>Filter by:  </p></span>
+                        <a class="selected-filter" id="all-button" href="#">ALL</a>
+                        <a id="open-button" href="#">OPEN</a>
+                        <a id="my-tickets-button"href="#">MY TICKETS</a>
+                    </div>
+                    
                     <table id="issues-table">
                         <tr class="table-header">
                             <th id='table-title'>Title</th>
@@ -43,21 +49,21 @@
                             <th id='table-title'>Created</th>
                         </tr>
                         <tr>
-                            <td>#100 XSS Vulnerabilitiy in Add User Form</td>
+                            <td><span>#100</span> XSS Vulnerabilitiy in Add User Form</td>
                             <td>Bug</td>
                             <td class="open-bug">OPEN</td>
                             <td>Tom Brady</td>
                             <td>2019-11-01</td>
                         </tr>
                         <tr>
-                            <td>#23 Location Service isn't working</td>
+                            <td><span>#23</span> Location Service isn't working</td>
                             <td>Bug</td>
                             <td class="closed-bug">CLOSED</td>
                             <td>Tom Brady</td>
                             <td>2019-11-01</td>
                         </tr>
                         <tr>
-                            <td>#23 Location Service isn't working</td>
+                            <td><span>#24</span> Location Service isn't working</td>
                             <td>Bug</td>
                             <td class="inprogress-bug">IN PROGRESS</td>
                             <td>Tom Brady</td>

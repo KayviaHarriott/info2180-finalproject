@@ -142,8 +142,31 @@ th {
 }
   
 
+.filter, .filter p{
+    display: inline-block; /**To make filter links in like with text, doesn't work**/
+}
+
+
 /**Icons, would like to use inline icons like flaticon but dont remember how**/
 
+#result span{
+    font-weight: bold;
+}
+
+.selected-filter{
+    color: white !important;
+    background-color: rgb(45, 21, 180);
+    
+}
+
+.filter a{
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}
 
 
 /**From Previous Lab**/
