@@ -30,7 +30,7 @@
 <input type="text" class="l-name-input" id="l-name" name="l-name" placeholder=""/>
 <br>
 <?php    
-    $input4 = $_POST["l-name"];
+    $input2 = $_POST["l-name"];
 
     $uppercase = preg_match('#[A-Z]#', $input2);           //check for uppercase letters
     $lowercase = preg_match('#[a-z]#', $input2);            //check for lowecase letters
