@@ -138,36 +138,90 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    //-->Change Filters (Change class name)
-    var btm = document.getElementById("title");
-    btm.addEventListener("click", function(event){
+    //-->Change Filters
+    var allbtn = document.getElementById("filter-button");
+    var openbtn = document.getElementById("open-button");
+    var myticketsbtn = document.getElementById("my-tickets-button");
+    
+    
+    
+    
+    allbtn.addEventListener("click", function(event){
         event.preventDefault();
-        alert("Logout button listener works");
-        
-        var pageTitle = document.getElementById("title");
-        //var textField = document.getElementsByClassName('title')[0].value; //placeholder
-
+        allbtn.classList.add("selected-filter");
+        openbtn.classList.remove("selected-filter");
+        myticketsbtn.classList.remove("selected-filter");     
+        var pageTitle = document.getElementById(""); //should be for filter it's trying to get in php
         var xmlhttp = new XMLHttpRequest();
-        //change class here
-
-        //remove from css classes from other filter buttons
-
+    
         xmlhttp.onreadystatechange = function() {
-                pageTitle.innerHTML = "<h1>Sign In</h1>";
                 if (this.readyState == 4 && this.status == 200  ) {
-                    //if (true ){
+                    
                         document.getElementById("to-change").innerHTML = xmlhttp.responseText;
-
-                    //}
-
+                        allbtn.classList.add("selected-filter");
+                        openbtn.classList.remove("selected-filter");
+                        myticketsbtn.classList.remove("selected-filter");    
                 }
                 else{
-                    document.getElementById("title").innerHTML = " ";
+    
                 }
         };
         xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
-        xmlhttp.send();
+        xmlhttp.send();        
+    
+    
     });
+    
+    openbtn.addEventListener("click", function(event){
+        event.preventDefault();
+        openbtn.classList.add("selected-filter");
+        allbtn.classList.remove("selected-filter");
+        myticketsbtn.classList.remove("selected-filter");    
+        
+    
+        var pageTitle = document.getElementById(""); //should be for filter it's trying to get in php
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200  ) {
+                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
+                        openbtn.classList.add("selected-filter");
+                        allbtn.remove("selected-filter");
+                        myticketsbtn.remove("selected-filter");  
+                }
+                else{
+    
+                }
+        };
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
+        xmlhttp.send();      
+    
+    });
+    
+    myticketsbtn.addEventListener("click", function(event){
+        event.preventDefault();
+        myticketsbtn.classList.add("selected-filter");
+        allbtn.classList.remove("selected-filter");
+        openbtn.classList.remove("selected-filter");
+    
+        var pageTitle = document.getElementById(""); //should be for filter it's trying to get in php
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200  ) {
+                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
+                        myticketsbtn.classList.add("selected-filter");
+                        allbtn.classList.remove("selected-filter");
+                        openbtn.classList.remove("selected-filter");
+                }
+                else{
+    
+                }
+        };
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
+        xmlhttp.send();      
+    
+    
+    });
+
 
 
 
