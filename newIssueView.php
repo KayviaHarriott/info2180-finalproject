@@ -9,11 +9,8 @@
 
 <label id="i-assign-label" for="i-assign">Assigned To</label><br>
 <select id="i-assign" class="i-assign-input" placeholder="1">
-<!--?php foreach (getUsers() as $a): ?-->
-<?php foreach ([1, 2, 3, 4] as $a):
-    /*<option value=<?= $a.id ?>><?= $a.firstname $a.lastname ?></option>*/
-    ?>
-    <option value=<?= $a ?>>User <?= $a ?></option>
+<?php foreach (getUsers() as $a): ?>
+    <option value=<?= $a["id"] ?>><?= $a["firstname"] ?> <?= $a["lastname"] ?></option>
 <?php endforeach;?>
 </select><br><br>
 

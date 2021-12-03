@@ -62,7 +62,8 @@ function getUsers() {
     $bugTrackerDB = connectToDB();
     $stmt = $bugTrackerDB->prepare(
         "SELECT `id`, `firstname`, `lastname` FROM users");
-    $result = $stmt->fetchAll();
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Closes the connection
     $bugTrackerDB = null;
@@ -120,7 +121,8 @@ function getIssues($filter = []) {
         FROM
             (`issues` as i JOIN `users` as a
                 ON i.`assigned_to`=a.`id`){$clauses};");
-    $result = $stmt->fetchAll();
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Closes the connection
     $bugTrackerDB = null;
@@ -172,4 +174,27 @@ function createIssue($iData) {
 
     $stmt->execute();
 } // End-createIssue
+
+/**
+ * @brief Returns true if the credentials provided match the ones in the
+ *        database
+ *
+ * @param Array $uData An associative array of the data to create the issue
+ */
+function verifyUser($email, $passwd) {
+    $e = filterDataArray($uData);
+
+    $bugTrackerDB = connectToDB();
+    $stmt = $bugTrackerDB->prepare(
+        "INSERT INTO users (`firstname`, `lastname`, `password`, `email`)
+        VALUES (:uFname, :uLname, :uPasswd, :uEmail)");
+
+    $stmt->bindParam(":uFname", $data["fname"]);
+    $stmt->bindParam(":uLname", $data["lname"]);
+    $stmt->bindParam(":uPasswd", password_hash($data["passwd"]));
+    $stmt->bindParam(":uEmail", $data["email"]);
+
+    $stmt->execute();
+} // End-verifyUser
+
 ?>
