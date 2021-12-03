@@ -15,5 +15,6 @@
 <!-- EMAIL -->
 <label id="email-label" for="email">Email</label><br>
 <input type="text" class="email-input" id="email" name="email" placeholder=""/><br><br>
+
 <input type="submit" class="new-user-button" id="new-user-button" name="new-user-button" value="Submit"/>
 </form>
