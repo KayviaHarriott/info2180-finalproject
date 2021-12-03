@@ -1,5 +1,8 @@
 "use strict";
 
+// 2021-12-03 17:37:53
+
+
 document.addEventListener('DOMContentLoaded', function() {
     //alert("Document loaded");
     var form = document.querySelector('form');
@@ -56,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
         pageTitle.innerHTML = "<h1>New User</h1>";
         //var textField = document.getElementsByClassName('title')[0].value; //placeholder
 
-        
+
         xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200 ) {
                     //if (true ){
@@ -77,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    
+
     //-->New Issue Link
     document.getElementsByClassName("new-issue")[0].addEventListener("click", function(event){
         event.preventDefault();
@@ -87,8 +90,8 @@ document.addEventListener('DOMContentLoaded', function() {
         var pageTitle = document.getElementById("title");
         pageTitle.innerHTML = "<h1>New Issue</h1>";
         //var textField = document.getElementsByClassName('title')[0].value; //placeholder
-        
-        
+
+
         xmlhttp.onreadystatechange = function() {
             pageTitle.innerHTML = "<h1>New Issue</h1>";
                if (this.readyState == 4 && this.status == 200 ) {
@@ -139,46 +142,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     //-->Change Filters
-    var allbtn = document.getElementById("filter-button");
+    var allbtn = document.getElementById("all-button");
     var openbtn = document.getElementById("open-button");
     var myticketsbtn = document.getElementById("my-tickets-button");
-    
-    
-    
-    
+
+
+
+
     allbtn.addEventListener("click", function(event){
         event.preventDefault();
         allbtn.classList.add("selected-filter");
         openbtn.classList.remove("selected-filter");
-        myticketsbtn.classList.remove("selected-filter");     
+        myticketsbtn.classList.remove("selected-filter");
         var pageTitle = document.getElementById(""); //should be for filter it's trying to get in php
         var xmlhttp = new XMLHttpRequest();
-    
+
         xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200  ) {
-                    
+
                         document.getElementById("to-change").innerHTML = xmlhttp.responseText;
                         allbtn.classList.add("selected-filter");
                         openbtn.classList.remove("selected-filter");
-                        myticketsbtn.classList.remove("selected-filter");    
+                        myticketsbtn.classList.remove("selected-filter");
                 }
                 else{
-    
+
                 }
         };
         xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
-        xmlhttp.send();        
-    
-    
+        xmlhttp.send();
+
+
     });
-    
+
     openbtn.addEventListener("click", function(event){
         event.preventDefault();
         openbtn.classList.add("selected-filter");
         allbtn.classList.remove("selected-filter");
-        myticketsbtn.classList.remove("selected-filter");    
-        
-    
+        myticketsbtn.classList.remove("selected-filter");
+
+
         var pageTitle = document.getElementById(""); //should be for filter it's trying to get in php
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
@@ -186,23 +189,23 @@ document.addEventListener('DOMContentLoaded', function() {
                         document.getElementById("to-change").innerHTML = xmlhttp.responseText;
                         openbtn.classList.add("selected-filter");
                         allbtn.remove("selected-filter");
-                        myticketsbtn.remove("selected-filter");  
+                        myticketsbtn.remove("selected-filter");
                 }
                 else{
-    
+
                 }
         };
         xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
-        xmlhttp.send();      
-    
+        xmlhttp.send();
+
     });
-    
+
     myticketsbtn.addEventListener("click", function(event){
         event.preventDefault();
         myticketsbtn.classList.add("selected-filter");
         allbtn.classList.remove("selected-filter");
         openbtn.classList.remove("selected-filter");
-    
+
         var pageTitle = document.getElementById(""); //should be for filter it's trying to get in php
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
@@ -213,13 +216,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         openbtn.classList.remove("selected-filter");
                 }
                 else{
-    
+
                 }
         };
         xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
-        xmlhttp.send();      
-    
-    
+        xmlhttp.send();
+
+
     });
 
 
