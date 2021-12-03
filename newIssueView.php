@@ -3,7 +3,7 @@
 <input type="text" class="i-title-input" id="i-title" name="issueTitle" placeholder=""/><br>
 
 <?php    
-    $input1 = $_POST["issueTitle"];
+    $input1 = $_POST["i-title"];
 
     $uppercase = preg_match('#[A-Z]#', $input1);           //check for uppercase letters
     $lowercase = preg_match('#[a-z]#', $input1);            //check for lowecase letters
@@ -25,7 +25,7 @@
 <label id="i-desc-label" for="i-desc">Description</label><br>
 <input type="text" class="i-desc-input" id="i-desc" name="issueDes" placeholder=""/><br>
 <?php    
-    $input2 = $_POST["issueDes"];
+    $input2 = $_POST["i-desc"];
 
     $uppercase = preg_match('#[A-Z]#', $input2);           //check for uppercase letters
     $lowercase = preg_match('#[a-z]#', $input2);            //check for lowecase letters

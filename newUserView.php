@@ -9,7 +9,7 @@
     $input1 = $_POST["f-name"];
 
     $uppercase = preg_match('#[A-Z]#', $input1);           //check for uppercase letters
-    $lowercase = preg_match('#[a-z]#', $input1);            //check for lowecase letters
+    $lowercase = preg_match('#[a-z]#', $input1);            //check for lowercase letters
     $number    = preg_match('#[0-9]#', $input1);           //check for numbers
     $specialChars = preg_match('#[^\w]#', $input1);     //check for special characters
     
@@ -33,7 +33,7 @@
     $input2 = $_POST["l-name"];
 
     $uppercase = preg_match('#[A-Z]#', $input2);           //check for uppercase letters
-    $lowercase = preg_match('#[a-z]#', $input2);            //check for lowecase letters
+    $lowercase = preg_match('#[a-z]#', $input2);            //check for lowercase letters
     $number    = preg_match('#[0-9]#', $input2);           //check for numbers
     $specialChars = preg_match('#[^\w]#', $input2);     //check for special characters
 
@@ -57,7 +57,7 @@
     $input3 = $_POST["p-word"];
     
     $uppercase = preg_match('#[A-Z]#', $input3);           //check for uppercase letters
-    $lowercase = preg_match('#[a-z]#', $input3);            //check for lowecase letters
+    $lowercase = preg_match('#[a-z]#', $input3);            //check for lowercase letters
     $number    = preg_match('#[0-9]#', $input3);           //check for numbers
     $specialChars = preg_match('#[^\w]#', $input3);     //check for special characters
 
