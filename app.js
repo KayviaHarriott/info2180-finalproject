@@ -62,6 +62,7 @@ function ajaxPostReq(url, data, type = "", callback){
             break;
     } // End-switch-case
 
+    console.log(contentType);
     // request options
     let req = {
         "method": "POST",
@@ -71,9 +72,8 @@ function ajaxPostReq(url, data, type = "", callback){
         }
     };
 
-    console.log(data);
     fetch(url, req).then(function(res) {callback(res)});
-} // End ajaxPostReq
+} // End-ajaxPostReq
 
 //----------------------------------------------------------------------------
 // Global Variables
@@ -143,18 +143,20 @@ function verifyUser(event){
             "email": email,
             "passwd": passwd
         };
-        ajaxPostReq(`${baseUrl}/bugTracker.php`, data, "json", function(res){
+        ajaxPostReq(`${baseUrl}/bugTracker.php`, data, "", function(res){
             res.text().then(function(r) {
-                console.log("----------");
+                console.log("*----------*");
                 console.log(r);
                 //console.log(JSON.parse(`${r}\n`));
                 //console.log(JSON.parse(
                 //    "\{\"0\": \{\"id\": \"1\",\"firstname\": \"John\",\"lastname\": \"Doe\"},\"auth\": true}"
                 //));
-                console.log("----------");
+                console.log("*----------*");
             });
             console.log("----------");
+            console.log(res.url);
             console.log(res.headers.get("Content-Type"));
+            console.log(res.ok);
             console.log(res.type);
             console.log("----------");
         });

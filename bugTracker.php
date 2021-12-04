@@ -30,8 +30,7 @@ if (array_key_exists("a", $_GET)){
 
 if (array_key_exists("a", $_POST)){
     $action = filterData($_POST["a"]);
-    //header("Content-Type: application/json; charset=utf-8");
-    header("Content-Type: application/json;");
+    header("Content-Type: application/json; charset=utf-8");
 
     switch ($action) {
         case "add-user":
