@@ -54,14 +54,23 @@ function filterDataArray(Array $dataArr) {
 
 
 /**
- * @brief Returns a list of users
+ * @brief Executes the query and returns the result
  *
- * @return Array
+ * @param String $query The query to be run
+ * @param Array $binds An associative array of binds used in the query and
+ *                     the value to be bound
+ * @param Int $mode The mode to fetch the results in
+ * @return Mixed
  */
-function getUsers() {
+function execQuery(String $query, Array $binds = [], Int $mode) {
     $bugTrackerDB = connectToDB();
-    $stmt = $bugTrackerDB->prepare(
-        "SELECT `id`, `firstname`, `lastname` FROM users");
+
+    $stmt = $bugTrackerDB->prepare($query);
+
+    foreach ($binds as $k => $v) {
+        $stmt->bindParam($k, $v);
+    } // End-foreach
+
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -69,6 +78,16 @@ function getUsers() {
     $bugTrackerDB = null;
     $stmt = null;
     return $result;
+} // End-execQuery
+
+/**
+ * @brief Returns a list of users
+ *
+ * @return Array
+ */
+function getUsers() {
+    $query = "SELECT `id`, `firstname`, `lastname` FROM users";
+    return execQuery($query, [], PDO::FETCH_ASSOC);
 } // End-getUsers
 
 /**
@@ -114,20 +133,13 @@ function getIssues($filter = []) {
         $clauses = " WHERE " . (rtrim($clauses, " and "));
     } // End-if
 
-    $bugTrackerDB = connectToDB();
-    $stmt = $bugTrackerDB->prepare(
-        "SELECT i.`id`, `title`, `type`, `status`, `firstname`, `lastname`,
-            `created`
+    $query = "SELECT i.`id`, `title`, `type`, `status`, `firstname`,
+            `lastname`, `created`
         FROM
             (`issues` as i JOIN `users` as a
-                ON i.`assigned_to`=a.`id`){$clauses};");
-    $stmt->execute();
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                ON i.`assigned_to`=a.`id`){$clauses};";
 
-    // Closes the connection
-    $bugTrackerDB = null;
-    $stmt = null;
-    return $result;
+    return execQuery($query, [], PDO::FETCH_ASSOC);
 } // End-getIssues
 
 /**
@@ -138,17 +150,24 @@ function getIssues($filter = []) {
 function createUser($uData) {
     $data = filterDataArray($uData);
 
-    $bugTrackerDB = connectToDB();
-    $stmt = $bugTrackerDB->prepare(
-        "INSERT INTO users (`firstname`, `lastname`, `password`, `email`)
-        VALUES (:uFname, :uLname, :uPasswd, :uEmail)");
+    $query = "SELECT `email` FROM users WHERE `email` = :uEmail";
+    $binds = [":uEmail" => $data["email"]];
 
-    $stmt->bindParam(":uFname", $data["fname"]);
-    $stmt->bindParam(":uLname", $data["lname"]);
-    $stmt->bindParam(":uPasswd", password_hash($data["passwd"]));
-    $stmt->bindParam(":uEmail", $data["email"]);
+    $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
 
-    $stmt->execute();
+    if (count($result) == 0) {
+        $query = "INSERT INTO users (`firstname`, `lastname`, `password`,
+                `email`)
+            VALUES (:uFname, :uLname, :uPasswd, :uEmail)";
+
+        $binds = [":uFname" => $data["fname"],
+            ":uLname" => $data["lname"],
+            ":uPasswd" => password_hash($data["passwd"]),
+            ":uEmail" => $data["email"]
+        ];
+
+        $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
+    } // End-if
 } // End-createUser
 
 /**
@@ -159,20 +178,19 @@ function createUser($uData) {
 function createIssue($iData) {
     $data = filterDataArray($iData);
 
-    $bugTrackerDB = connectToDB();
-    $stmt = $bugTrackerDB->prepare(
-        "INSERT INTO issues (`title`, `description`, `type`, `priority`,
+    $query = "INSERT INTO issues (`title`, `description`, `type`, `priority`,
             `assigned_to`, `created_by`)
-        VALUES (:iTitle, :iDesc, :iType, :iPri, :iAssign, :iCreator)");
+        VALUES (:iTitle, :iDesc, :iType, :iPri, :iAssign, :iCreator)";
 
-    $stmt->bindParam(":iTitle", $data["title"]);
-    $stmt->bindParam(":iDesc", $data["desc"]);
-    $stmt->bindParam(":iType", $data["type"]);
-    $stmt->bindParam(":iPri", $data["pri"]);
-    $stmt->bindParam(":iAssign", $data["assign"]);
-    $stmt->bindParam(":iCreator", $data["creator"]);
+    $binds = [":iTitle" => $data["title"],
+        ":iDesc" => $data["desc"],
+        ":iType" => $data["type"],
+        ":iPri" => $data["pri"],
+        ":iAssign" => $data["assign"],
+        ":iCreator" => $data["creator"]
+    ];
 
-    $stmt->execute();
+    $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
 } // End-createIssue
 
 /**
@@ -181,20 +199,24 @@ function createIssue($iData) {
  *
  * @param Array $uData An associative array of the data to create the issue
  */
-function verifyUser($email, $passwd) {
-    $e = filterDataArray($uData);
+function verifyUser($uEmail, $uPasswd) {
+    $email = filterData($uEmail);
 
     $bugTrackerDB = connectToDB();
-    $stmt = $bugTrackerDB->prepare(
-        "INSERT INTO users (`firstname`, `lastname`, `password`, `email`)
-        VALUES (:uFname, :uLname, :uPasswd, :uEmail)");
+    $query = "SELECT `id`, `firstname`, `lastname` FROM users
+        WHERE `email` = :uEmail and `password` = :uPasswd FROM users";
 
-    $stmt->bindParam(":uFname", $data["fname"]);
-    $stmt->bindParam(":uLname", $data["lname"]);
-    $stmt->bindParam(":uPasswd", password_hash($data["passwd"]));
-    $stmt->bindParam(":uEmail", $data["email"]);
+    $binds = [":uEmail" => $data["email"],
+        ":uPasswd" => password_hash($data["passwd"])
+    ];
 
-    $stmt->execute();
+    $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
+
+    if (count(result) == 1) {
+        return json_encode($result);
+    }else{
+        return false;
+    } // End-if
 } // End-verifyUser
 
 ?>
