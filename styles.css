@@ -98,16 +98,16 @@ aside{
 }
 
 
-#submit-button, #sign-in-button, #new-user-button, #new-submit-issue-button {
+#submit-button, #sign-in-button, #new-user-button, #new-submit-issue-button, #new-issue-button {
     display: inline;
     color: white;
     font-weight: 600;
     border-color: rgba(0, 0, 0, 0);
     border-radius: 2px;
-    background-color: rgb(86, 72, 204);
+    background-color: rgba(27, 106, 201, 1);
     font-family:  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     width: 150px;
-    height: 30px;
+    height: 40px;
 }
 
 #mark-closed-button, #mark-in-progress-button{
@@ -116,7 +116,7 @@ aside{
     font-weight: 600;
     border-color: rgba(0, 0, 0, 0);
     border-radius: 2px;
-    background-color: rgb(39, 173, 50);
+    background-color: rgba(45, 165, 98, 1);
     font-family:  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     height: 30px;
     width: 100%;
@@ -125,11 +125,12 @@ aside{
 }
 
 #mark-closed-button{
-    background-color: rgb(86, 72, 204);
+    background-color: rgba(27, 106, 201, 1);
+
 }
 
 #mark-in-progress-button{
-    background-color: rgb(39, 173, 50);
+    background-color: rgba(45, 165, 98, 1);
 }
 
 
@@ -142,7 +143,32 @@ aside{
 
 }
 
-.f-name-input, .l-name-input, .p-word-input, .email-input, .i-title-input, .i-desc-input, .i-assign-input, .i-type-input, .i-priority-input {
+.i-title-input,.i-assign-input, .i-type-input, .i-priority-input {
+    background-color: rgb(247, 247, 247);
+    border-color: rgb(187, 187, 187);
+    border-radius: 4px;
+    border-width: 1px;
+    width: 300px;
+    height: 35px;
+    padding-left: 10px;
+    color:rgb(131, 131, 131);
+    font-weight: bold;
+    
+}
+.i-desc-input{
+    background-color: rgb(247, 247, 247);
+    border-color: rgb(187, 187, 187);
+    border-radius: 4px;
+    border-width: 1px;
+    width: 300px;
+    height: 80px;
+    padding-left: 10px;
+    color:rgb(131, 131, 131);
+    font-weight: bold;
+    
+}
+
+.f-name-input, .l-name-input, .p-word-input, .email-input{
     background-color: rgb(247, 247, 247);
     border-color: rgb(187, 187, 187);
     border-radius: 4px;
@@ -213,15 +239,15 @@ th {
 
 
 .open-bug{
-    background-color:rgb(12, 150, 0);
+    background-color:rgba(45, 165, 98, 1);
 }
 .closed-bug{
-    background-color:rgb(238, 42, 42);
+    background-color:rgba(255, 84, 0, 1);
 }
 
 .inprogress-bug{
     color: black;
-    background-color:rgb(252, 204, 47);
+    background-color:rgba(255, 219, 81, 1);
 }
   
 
@@ -238,7 +264,7 @@ th {
 
 .selected-filter{
     color: white !important;
-    background-color: rgb(45, 21, 180);
+    background-color: rgba(27, 106, 201, 1);
     
 }
 
