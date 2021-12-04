@@ -68,7 +68,7 @@ function execQuery(string $query, array $binds = [], int $mode) {
     $stmt = $bugTrackerDB->prepare($query);
 
     foreach ($binds as $k => $v) {
-        $stmt->bindParam($k, $v);
+        $stmt->bindValue($k, $v);
     } // End-foreach
 
     $stmt->execute();
@@ -218,14 +218,11 @@ function verifyUser($uData) {
 
     $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
 
-    $result["auth"] = false;
-    $result["binds"] = $binds;
-    return json_encode($result);
-    // if ($result != []) {
-    //     $result["auth"] = true;
-    //     return json_encode($result);
-    // }else{
-    //     return json_encode(["auth" => false]);
-    // } // End-if
+    if ($result != []) {
+        $result["auth"] = true;
+        return json_encode($result);
+    }else{
+        return json_encode(["auth" => false]);
+    } // End-if
 } // End-verifyUser
 ?>

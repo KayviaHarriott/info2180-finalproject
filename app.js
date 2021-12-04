@@ -123,7 +123,6 @@ function loadSignIn(){
         // Remove all the event listeners for the other buttons so they don't
         // trigger anymore when you log out
         var b;
-        console.log(asideBtns);
         for (b in asideBtns) {
             asideBtns[b].removeEventListener("click", asideBtnListners[b]);
         } // End-for
@@ -148,8 +147,16 @@ function verifyUser(event){
             res.text().then(function(r) {
                 console.log("----------");
                 console.log(r);
+                //console.log(JSON.parse(`${r}\n`));
+                //console.log(JSON.parse(
+                //    "\{\"0\": \{\"id\": \"1\",\"firstname\": \"John\",\"lastname\": \"Doe\"},\"auth\": true}"
+                //));
                 console.log("----------");
             });
+            console.log("----------");
+            console.log(res.headers.get("Content-Type"));
+            console.log(res.type);
+            console.log("----------");
         });
     } // End-if
 
