@@ -141,9 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    //-->Change Filters
-
-    
+    //-->Change Filters    
     var filterBtn = document.getElementById("filter-button");
     var allbtn = document.getElementById("all-button");
     var openbtn = document.getElementById("open-button");
@@ -197,6 +195,129 @@ document.addEventListener('DOMContentLoaded', function() {
         xmlhttp.send();        
 
     });
+
+
+
+    allbtn.addEventListener("click", function(event){
+        event.preventDefault();
+        allbtn.classList.add("selected-filter");
+        openbtn.classList.remove("selected-filter");
+        myticketsbtn.classList.remove("selected-filter");
+        var pageTitle = document.getElementById(""); //should be for filter it's trying to get in php
+        var xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200  ) {
+                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
+                        allbtn.classList.add("selected-filter");
+                        openbtn.classList.remove("selected-filter");
+                        myticketsbtn.classList.remove("selected-filter");
+                }
+                else{
+
+                }
+        };
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
+        xmlhttp.send();
+
+
+    });
+
+    openbtn.addEventListener("click", function(event){
+        event.preventDefault();
+        openbtn.classList.add("selected-filter");
+        allbtn.classList.remove("selected-filter");
+        myticketsbtn.classList.remove("selected-filter");
+
+
+        var pageTitle = document.getElementById(""); //should be for filter it's trying to get in php
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200  ) {
+                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
+                        openbtn.classList.add("selected-filter");
+                        allbtn.remove("selected-filter");
+                        myticketsbtn.remove("selected-filter");
+                }
+                else{
+
+                }
+        };
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
+        xmlhttp.send();
+
+    });
+
+    myticketsbtn.addEventListener("click", function(event){
+        event.preventDefault();
+        myticketsbtn.classList.add("selected-filter");
+        allbtn.classList.remove("selected-filter");
+        openbtn.classList.remove("selected-filter");
+
+        var pageTitle = document.getElementById(""); //should be for filter it's trying to get in php
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200  ) {
+                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
+                        myticketsbtn.classList.add("selected-filter");
+                        allbtn.classList.remove("selected-filter");
+                        openbtn.classList.remove("selected-filter");
+                }
+                else{
+
+                }
+        };
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
+        xmlhttp.send();
+
+
+    });
+
+
+    //--> Form Buttons
+    //-->Sign in Button
+    document.getElementsByClassName("sign-in-button")[0].addEventListener("click", function(event){
+        event.preventDefault();
+        //alert("Sign in button listener works");
+        var xmlhttp = new XMLHttpRequest();
+
+        var uemail = document.getElementById("email").value;
+        var upassword = document.getElementById("p-word").value;
+
+        //let pword = document.querySelector("#p-word").value.replace( /(<([^>]+)>)/ig, "");
+        //let email = document.querySelector("#email").value.replace( /(<([^>]+)>)/ig, "");
+
+        var pageTitle = document.getElementById("title");
+        //pageTitle.innerHTML = "<h1>New Issue</h1>";
+        //var textField = document.getElementsByClassName('title')[0].value; //placeholder
+
+
+        xmlhttp.onreadystatechange = function() {
+            pageTitle.innerHTML = "<h1>New Issue</h1>";
+                if (this.readyState == 4 && this.status == 200 ) {
+                    //if (true ){
+                        //pageTitle.innerHTML = "<h1>New Issue</h1>";
+                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
+                        uemail = document.getElementById("email").value;
+                        upassword = document.getElementById("p-word").value;
+                        alert(uemail,upassword);
+                        let pword = document.querySelector("#p-word").value.replace( /(<([^>]+)>)/ig, "");
+                        let email = document.querySelector("#email").value.replace( /(<([^>]+)>)/ig, "");
+
+                    //}
+
+                }
+                else{
+                    document.getElementById("title").innerHTML = " ";
+                }
+                //pageTitle.innerHTML = "<h1>New Issue</h1>";
+                //document.getElementById("to-change").innerHTML = this.responseText;
+        };
+        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
+        xmlhttp.send();
+
+    });
+
 
 
 });
