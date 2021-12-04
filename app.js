@@ -29,32 +29,66 @@ function isValidEmail(email){
 } // End-isValidEmail
 
 /**
- * @brief Executes the AJAX request
+ * @brief Executes an AJAX GET request
  *
- * @param Element responseDiv The HTML element to render the response in
- * @param String method The type of HTTP request to make
- * @param String newPgTitle The title of the new screen to be loaded
- * @param String query The data to send in the request
- * @return type
- * @throws conditon
+ * @param string url The link to send the request to
+ * @param function callback The code to be run once the response is received
  */
-function genericAJAXReq(responseDiv, method, newPgTitle, query = "", callback) {
+function ajaxGetReq(url, callback) {
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onload = function() {
-        responseDiv.innerHTML = xmlhttp.responseText;
-        if (callback != null){
-            callback();
-        } // End-if
-    }
-
-    var link = `bugTracker.php?a=${newPgTitle}`;
-    if (query != "") {
-        link = `bugTracker.php?a=${newPgTitle}&${query}`;
-    } // End-if
-
-    xmlhttp.open(method, link, true);
+    xmlhttp.onload = function() {callback(this)};
+    xmlhttp.open("GET", url, true);
     xmlhttp.send();
-}; // End-genericAJAXReq
+}; // End-ajaxGetReq
+
+/**
+ * @brief Sends a POST request with the data provided to the link specified
+ *        and returns the result
+ *
+ * @param string url The location to POST the data to
+ * @param JSON data The data to be sent in the body of the POST request
+ * @param string type The Content-Type of the POST request
+ * @return any
+ */
+async function ajaxPostReq(url, data, type = ""){
+    let contentType;
+    switch (type) {
+        case "json":
+            contentType = "application/json";
+            break;
+        default:
+            contentType = "application/x-www-form-urlencoded";
+            break;
+    } // End-switch-case
+
+    // request options
+    let req = {
+        "method": "POST",
+        "body": JSON.stringify(data),
+        "headers": {
+            "Content-Type": contentType
+        }
+    };
+
+    return await fetch(url, req).then(res => res);
+} // End ajaxPostReq
+
+//----------------------------------------------------------------------------
+// Global Variables
+//----------------------------------------------------------------------------
+
+let responseDiv;
+let pageTitle;
+
+//----------------------------------------------------------------------------
+// Button Listeners
+//----------------------------------------------------------------------------
+
+document.addEventListener('DOMContentLoaded', function(event) {
+    responseDiv = document.getElementById("to-change");
+    pageTitle = document.getElementById("title");
+    login();
+}); // End-documentOnLoad
 
 function login() {
     let signIn = document.getElementById("sign-in-form");
@@ -66,11 +100,12 @@ function login() {
     for (b of btns) {
         b.addEventListener("click", function (event) {
             event.preventDefault();
-            let responseDiv = document.getElementById("to-change");
             let newPgTitle = "Sign In";
-            let pageTitle = document.getElementById("title");
             pageTitle.innerHTML = `<h1>${newPgTitle}</h1>`;
-            genericAJAXReq(responseDiv, "GET", newPgTitle, "", () =>{
+
+            let link = `bugTracker.php?a=${newPgTitle}`;
+            ajaxGetReq(link, function(xmlhttp) {
+                responseDiv.innerHTML = xmlhttp.responseText;
                 signIn = document.getElementById("sign-in-form");
                 signIn.addEventListener("submit", verifyUser);
             });
@@ -84,27 +119,13 @@ function verifyUser(event){
     let passwd = document.getElementById("p-word").value;
 
     if (isValidEmail(email)) {
-        // post body data
-        const data = {
-            a: "sign-in",
-            email: email,
-            passwd: passwd
+        let data = {
+            "a": "sign-in",
+            "email": email,
+            "passwd": passwd
         };
-
-        // request options
-        const req = {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-
-        console.log(email);
-        fetch(`${window.location.origin}/bugTracker.php`, req)
-        .then(res => res.json())
-        //.then(res => res.text())
-        .then(res => alert(res));
+        res = ajaxPostReq(`${window.location.origin}/bugTracker.php`,
+            data, "json");
     } // End-if
 
     bugTracker(); // REMEMBER TO PUT THIS BACK INSIDE THE IF SO IT'S ACTUALLY
@@ -113,11 +134,12 @@ function verifyUser(event){
 
 function bugTracker() {
     // Load in the Dashboard
-    let responseDiv = document.getElementById("to-change");
     let newPgTitle = "Issues";
-    let pageTitle = document.getElementById("title");
     pageTitle.innerHTML = `<h1>${newPgTitle}</h1>`;
-    genericAJAXReq(responseDiv, "GET", newPgTitle);
+    let link = `bugTracker.php?a=${newPgTitle}`;
+    ajaxGetReq(link, function(xmlhttp) {
+        responseDiv.innerHTML = xmlhttp.responseText
+    });
 
     //-->Home/Dashboard Link
     document.getElementsByClassName("dashboard")[0]
@@ -138,13 +160,11 @@ function bugTracker() {
 
 function dashboardListener(event){
     event.preventDefault();
-    let responseDiv = document.getElementById("to-change");
     let newPgTitle = "Issues";
-    let pageTitle = document.getElementById("title");
     pageTitle.innerHTML = `<h1>${newPgTitle}</h1>`;
 
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onload = function() {
+    let link = `bugTracker.php?a=${newPgTitle}`;
+    ajaxGetReq(link, function(xmlhttp) {
         responseDiv.innerHTML = xmlhttp.responseText;
 
         const filter = document.getElementById("filter");
@@ -162,9 +182,12 @@ function dashboardListener(event){
                 } // End-for
                 event.target.classList.add("selected-filter");
 
-                let responseDiv = document.getElementById("issue-list");
+                let issueLst = document.getElementById("issue-list");
                 let query = `filter=${event.target.innerText}`;
-                genericAJAXReq(responseDiv, "GET", "Issue List", query);
+                let link = `bugTracker.php?a=Issue List&${query}`;
+                ajaxGetReq(link, function(xmlhttp) {
+                    issueLst.innerHTML = xmlhttp.responseText
+                });
             }); // End-eventListener
 
             // Initialises the All button as the selected one
@@ -172,42 +195,35 @@ function dashboardListener(event){
                 btn.classList.add("selected-filter");
             } // End-if
         } // End-for
-    }; // End-onload
-
-    let link = `bugTracker.php?a=${newPgTitle}`;
-    xmlhttp.open("GET", link, true);
-    xmlhttp.send();
+    });
 } // End-dashboardListener
 
 function createUserListener(event) {
     event.preventDefault();
-    let responseDiv = document.getElementById("to-change");
     let newPgTitle = "New User";
-    let pageTitle = document.getElementById("title");
     pageTitle.innerHTML = `<h1>${newPgTitle}</h1>`;
-    genericAJAXReq(responseDiv, "GET", newPgTitle, "", () => {
+    let link = `bugTracker.php?a=${newPgTitle}`;
+    ajaxGetReq(link, function(xmlhttp) {
         alert("Create User");
     });
 } // End-createUserListener
 
 function createIssueListener(event) {
     event.preventDefault();
-    let responseDiv = document.getElementById("to-change");
     let newPgTitle = "New Issue";
-    let pageTitle = document.getElementById("title");
     pageTitle.innerHTML = `<h1>${newPgTitle}</h1>`;
-    genericAJAXReq(responseDiv, "GET", newPgTitle, "", () => {
+    let link = `bugTracker.php?a=${newPgTitle}`;
+    ajaxGetReq(link, function(xmlhttp) {
         alert("Create Issue");
     });
 } // End-createIssueListener
 
 function logoutListener(event) {
     event.preventDefault();
-    let responseDiv = document.getElementById("to-change");
     let newPgTitle = "Sign In";
-    let pageTitle = document.getElementById("title");
     pageTitle.innerHTML = `<h1>${newPgTitle}</h1>`;
-    genericAJAXReq(responseDiv, "GET", newPgTitle, "", () => {
+    let link = `bugTracker.php?a=${newPgTitle}`;
+    ajaxGetReq(link, function(xmlhttp) {
         alert("Logout");
         // I imagine there would be extra code here to close the PHP session
 
@@ -216,5 +232,3 @@ function logoutListener(event) {
         login();
     });
 } // End-logoutListener
-
-document.addEventListener('DOMContentLoaded', login); // End-documentOnLoad
