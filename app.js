@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let genericAJAXReq = (responseDiv, method, newPgTitle, query = "") => {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onload = function() {
-            pageTitle.innerHTML = `<h1>${newPgTitle}</h1>`;
             responseDiv.innerHTML = xmlhttp.responseText;
         }
 
@@ -47,10 +46,11 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         var responseDiv = document.getElementById("to-change");
         let newPgTitle = "Issues";
+        pageTitle.innerHTML = `<h1>${newPgTitle}</h1>`;
 
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onload = function() {
-            pageTitle.innerHTML = `<h1>${newPgTitle}</h1>`;
+            //pageTitle.innerHTML = `<h1>${newPgTitle}</h1>`;
             responseDiv.innerHTML = xmlhttp.responseText;
 
             const filter = document.getElementById("filter");
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }); // End-eventListener
 
                 // Initialises the All button as the selected one
-                if (btn.innerText == "ALL") {
+                if (btn.id == "all-button") {
                     btn.classList.add("selected-filter");
                 } // End-if
             } // End-for
@@ -89,23 +89,29 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementsByClassName("add-user")[0]
     .addEventListener("click", function(event){
         event.preventDefault();
-        var responseDiv = document.getElementById("to-change");
-        genericAJAXReq(responseDiv, "GET", "New User");
+        let responseDiv = document.getElementById("to-change");
+        let newPgTitle = "New User";
+        pageTitle.innerHTML = `<h1>${newPgTitle}</h1>`;
+        genericAJAXReq(responseDiv, "GET", newPgTitle);
     });
 
     //-->New Issue Link
     document.getElementsByClassName("new-issue")[0].
     addEventListener("click", function(event){
         event.preventDefault();
-        var responseDiv = document.getElementById("to-change");
-        genericAJAXReq(responseDiv, "GET", "New Issue");
+        let responseDiv = document.getElementById("to-change");
+        let newPgTitle = "New Issue";
+        pageTitle.innerHTML = `<h1>${newPgTitle}</h1>`;
+        genericAJAXReq(responseDiv, "GET", newPgTitle);
     });
 
     //-->Logout Link
     document.getElementsByClassName("log-out")[0]
     .addEventListener("click", function(event){
         event.preventDefault();
-        var responseDiv = document.getElementById("to-change");
-        genericAJAXReq(responseDiv, "GET", "Sign In");
+        let responseDiv = document.getElementById("to-change");
+        let newPgTitle = "Sign In";
+        pageTitle.innerHTML = `<h1>${newPgTitle}</h1>`;
+        genericAJAXReq(responseDiv, "GET", newPgTitle);
     });
 });
