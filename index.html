@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INFO2180 Project 1</title>
+    <title>BugMe Issue Tracker</title>
     <link  rel="stylesheet" href="styles.css" type="text/css">
+    <link rel="icon" href="imgs/bug.png">
     <script src="app.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 
@@ -21,16 +22,66 @@
     <main>
         <div class="reload-content" id="result">
                 <div class="title" id="title">
-                    <h1>Sign In</h1>
+                    <h1>Sign In</h1>              
                 </div>
-                <div class="result" id="to-change"> <!--Would like this to be #result-->
-                     <form id="sign-in-form" action="#">
+                <div class="result" id="to-change"> <!--Would like this to be #result -->
+                    
+                    <!-- 
+                    <div class="issue-detailed-container">
+                        <br>
+                        <div id= "issue-detailed" class= "issue-detailed">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam odio elit, 
+                                commodo vitae sollicitudin id, vulputate sit amet lectus. Praesent feugiat
+                                tellus in quam suscipit lobortis. In hac habitasse platea dictumst. Vestibulum 
+                                at finibus neque. In gravida, ligula hendrerit laoreet finibus, nunc tellus 
+                                tincidunt neque, in efficitur sem elit sit amet risus. Aenean id nulla nec 
+                                nunc tincidunt eleifend. Donec eros augue, interdum vitae turpis vel, commodo 
+                                ultrices nisl. Mauris commodo posuere euismod. Nunc non turpis ut ligula 
+                                ullamcorper auctor. Cras urna purus, vulputate sed erat a, aliquam 
+                                malesuada neque. Aenean accumsan neque eget feugiat ultrices. 
+                                Pellentesque sit amet ex vel urna pretium mattis blandit et urna. 
+                                Fusce sed luctus nibh. Suspendisse mollis egestas magna quis condimentum. </p>
+                            
+                            <br>
+                            <ul id="latest-issue" class="latest=issue">
+                                <li>Issue one</li>
+                                <li>Issue two</li>
+                            </ul>
+
+                        </div>
+                        
+
+                        <div id="overview-issue" class="overview-issue">
+                            <h4 id="assignedTo-issue">Assigned To</h4>
+                            <p>Tom Brady</p>
+                            <br>
+                            <h4 id="type-issue">Type:</h4>
+                            <p>Proposal</p>
+                            <br>
+                            <h4 id="priority-issue">Priority:</h4>
+                            <p>Major</p>
+                            <br>
+                            <h4 id="status-issue">Status:</h4>
+                            <p>Open</p>
+                            <br>
+                            <br>
+                        </div>
+                        <div id="detail-issue-buttons" class="detail-issue-buttons" >
+                            <br><input type="submit" class="mark-closed-button" id="mark-closed-button" value="Mark as Closed">
+                            <br>
+                            <br><input type="submit" class="mark-in-progress-button" id="mark-in-progress-button" value="Mark in Progress">
+                        </div>
+                    </div> -->
+
+                    <!--Test Sign In form--> 
+                    <form id="sign-in-form" action="#">
                         <br><br><label id="email-label" for="email">Email</label>
                         <br><input type="text" class="email-input" id="email" placeholder="">
                         <br><br><label id="p-word-label" for="p-word">Password</label>
                         <br><input type="password" class="p-word-input" id="p-word" placeholder="">                        
                         <br><br><input type="submit" class="sign-in-button" id="sign-in-button" value="Submit">
                     </form> 
+                    
 
                     <!--Test table for css--><!--
                     <div id="filter" class="filter">
