@@ -8,6 +8,49 @@
 
 }
 
+.result{
+    display: grid;
+    grid-template-areas:
+        'issue-title     issue-title      issue-title      issue-title'
+        'issue-detailed    issue-detailed        issue-detailed        overview-issue'
+        'issue-detailed    issue-detailed        issue-detailed        detail-issue-buttons';
+    font-family:   -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+}
+
+.issue-title{
+    grid-area: issue-title;
+
+}
+
+.issue-detailed{
+    grid-area: issue-detailed;
+
+}
+
+.overview-issue{
+    grid-area: overview-issue;
+    
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(151, 151, 151);
+    border-radius: 4px;
+    background-color: rgb(228, 228, 228);
+    /*
+    
+    
+   
+    width: 300px;
+    height: 30px;*/
+
+}
+
+.detail-issue-buttons{
+    grid-area: detail-issue-buttons;
+
+}
+
+
 header{
     grid-area: header;
     background-color: black;
@@ -40,13 +83,25 @@ aside{
 }
 
 
-#submit-button, #sign-in-button, #new-user-button, #new-submit-issue-button{
+#submit-button, #sign-in-button, #new-user-button, #new-submit-issue-button, #mark-closed-button{
     display: inline;
     color: white;
     font-weight: 600;
     border-color: rgba(0, 0, 0, 0);
     border-radius: 2px;
     background-color: rgb(86, 72, 204);
+    font-family:  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    width: 150px;
+    height: 30px;
+}
+
+#mark-in-progress-button{
+    display: inline;
+    color: white;
+    font-weight: 600;
+    border-color: rgba(0, 0, 0, 0);
+    border-radius: 2px;
+    background-color: rgb(39, 173, 50);
     font-family:  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     width: 150px;
     height: 30px;
