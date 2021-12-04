@@ -83,8 +83,9 @@ function addUser() {
     } // End-foreach
 
     if (count($err) == 0) {
-        echo "TEST";
-        // Hash the password and add the new user
+        createUser($_POST);
+    }else{
+        return json_encode($err);
     } // End-if
 } // End-addUser
 

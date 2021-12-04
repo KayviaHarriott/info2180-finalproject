@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //-->Change Filters
 
-    
+
     var filterBtn = document.getElementById("filter-button");
     var allbtn = document.getElementById("all-button");
     var openbtn = document.getElementById("open-button");
@@ -180,12 +180,12 @@ document.addEventListener('DOMContentLoaded', function() {
             openbtn.classList.remove("selected-filter");
             myticketsbtn.classList.add("selected-filter");
         }
-        
+
         var xmlhttp = new XMLHttpRequest();
 
         xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200  ) {
-                    
+
                         document.getElementById("to-change").innerHTML = xmlhttp.responseText;
 
                 }
@@ -193,8 +193,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById("title").innerHTML = " ";
                 }
         };
-        xmlhttp.open("GET", "bugTracker.php?a=" + filterQuery, true); //change to the field to go to php
-        xmlhttp.send();        
+        xmlhttp.open("GET", "bugTracker.php?a=Issues&filter=" + filterQuery, true); //change to the field to go to php
+        xmlhttp.send();
 
     });
 

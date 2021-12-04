@@ -1,12 +1,12 @@
 -- You may need to run the commented out lines as a user with permission to
 -- create users and grant permissions
 
---CREATE USER IF NOT EXISTS bugmeAdmin IDENTIFIED BY 'password123';
+-- CREATE USER IF NOT EXISTS bugmeAdmin IDENTIFIED BY 'password123';
 
 DROP DATABASE IF EXISTS `bugme`;
 CREATE DATABASE `bugme`;
 
-GRANT ALL PRIVILEGES ON bugme.* TO bugmeAdmin;
+-- GRANT ALL PRIVILEGES ON bugme.* TO bugmeAdmin;
 
 USE `bugme`;
 
@@ -104,8 +104,8 @@ VALUES
     'Proposal',
     'Major',
     'IN PROGRESS',
-    1,
-    1
+    2,
+    2
 ),
 (
     'Cannot log into computer',
@@ -114,7 +114,7 @@ VALUES
     'Critical',
     'CLOSED',
     1,
-    1
+    2
 ),
 (
     'Cannot log into computer',
@@ -122,7 +122,7 @@ VALUES
     'Bug',
     'Minor',
     'OPEN',
-    1,
+    2,
     1
 );
 

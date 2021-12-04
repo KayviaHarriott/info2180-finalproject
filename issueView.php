@@ -1,15 +1,26 @@
 <?php
 include_once "dataMgmt.php";
 
-$issueLst = getIssues(); ?>
+switch (filterData($_GET["filter"])) {
+    case "OPEN":
+        $filter = ["status" => "open"];
+        break;
+    case "MY TICKETS":
+        // REMEMBER TO CHANGE TO USE THE ID THE PAGE SENDS
+        $filter = ["owner" => 1];
+        break;
+    default:
+        $filter = [];
+        break;
+} // End-switch-case
 
+$issueLst = getIssues($filter); ?>
 <div id="filter" class="filter">
     <span><p>Filter by: </p></span>
     <a class="selected-filter" id="all-button" href="#">ALL</a>
     <a id="open-button" href="#">OPEN</a>
     <a id="my-tickets-button" href="#">MY TICKETS</a>
 </div>
-
 <table id="issues-table">
     <tr class="table-header">
         <th id='table-title'>Title</th>

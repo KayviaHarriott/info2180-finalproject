@@ -13,8 +13,8 @@ function connectToDB() {
 /**
  * @brief Returns a sanitized string of the input
  *
- * @param String $data The data to be sanitized
- * @return String
+ * @param string $data The data to be sanitized
+ * @return string
  */
 function filterData($data) {
     $result = $data;
@@ -39,10 +39,10 @@ function filterData($data) {
 /**
  * @brief Returns an array of sanitized strings
  *
- * @param Array $data The array of data to be sanitized
- * @return Array
+ * @param array $data The array of data to be sanitized
+ * @return array
  */
-function filterDataArray(Array $dataArr) {
+function filterDataArray(array $dataArr) {
     $result = [];
 
     foreach ($dataArr as $k => $v) {
@@ -56,13 +56,13 @@ function filterDataArray(Array $dataArr) {
 /**
  * @brief Executes the query and returns the result
  *
- * @param String $query The query to be run
- * @param Array $binds An associative array of binds used in the query and
+ * @param string $query The query to be run
+ * @param array $binds An associative array of binds used in the query and
  *                     the value to be bound
- * @param Int $mode The mode to fetch the results in
+ * @param int $mode The mode to fetch the results in
  * @return Mixed
  */
-function execQuery(String $query, Array $binds = [], Int $mode) {
+function execQuery(string $query, array $binds = [], int $mode) {
     $bugTrackerDB = connectToDB();
 
     $stmt = $bugTrackerDB->prepare($query);
@@ -83,7 +83,7 @@ function execQuery(String $query, Array $binds = [], Int $mode) {
 /**
  * @brief Returns a list of users
  *
- * @return Array
+ * @return array
  */
 function getUsers() {
     $query = "SELECT `id`, `firstname`, `lastname` FROM users";
@@ -93,9 +93,9 @@ function getUsers() {
 /**
  * @brief Returns a list of issues
  *
- * @param Array $filter An associative array of filter criteria to narrow down
+ * @param array $filter An associative array of filter criteria to narrow down
  *                      the search results
- * @return Array
+ * @return array
  */
 function getIssues($filter = []) {
     $data = filterDataArray($filter);
@@ -145,7 +145,8 @@ function getIssues($filter = []) {
 /**
  * @brief Adds a new user to the database
  *
- * @param Array $uData An associative array of the data to create the issue
+ * @param array $uData An associative array of the data to create the issue
+ * @return bool
  */
 function createUser($uData) {
     $data = filterDataArray($uData);
@@ -167,13 +168,16 @@ function createUser($uData) {
         ];
 
         $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
+        return true;
+    }else{
+        return false;
     } // End-if
 } // End-createUser
 
 /**
  * @brief Adds a new issue to the database
  *
- * @param Array $iData An associative array of the data to create the issue
+ * @param array $iData An associative array of the data to create the issue
  */
 function createIssue($iData) {
     $data = filterDataArray($iData);
@@ -197,7 +201,7 @@ function createIssue($iData) {
  * @brief Returns true if the credentials provided match the ones in the
  *        database
  *
- * @param Array $uData An associative array of the data to create the issue
+ * @param array $uData An associative array of the data to create the issue
  */
 function verifyUser($uEmail, $uPasswd) {
     $email = filterData($uEmail);
