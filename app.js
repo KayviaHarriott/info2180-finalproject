@@ -1,14 +1,35 @@
 "use strict";
 
-// 2021-12-03 17:37:53
-
-
 document.addEventListener('DOMContentLoaded', function() {
     //alert("Document loaded");
     var form = document.querySelector('form');
     var pageTitle = document.getElementById("title");
+    var responseDiv = document.getElementById("to-change");
 
+    /**
+     * @brief Executes the AJAX request
+     *
+     * @param String method The type of HTTP request to make
+     * @param String newPgTitle The title of the new screen to be loaded
+     * @param String query The data to send in the request
+     * @return type
+     * @throws conditon
+     */
+    let genericAJAXReq = (method, newPgTitle, query = "") => {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            pageTitle.innerHTML = `<h1>${newPgTitle}</h1>`;
+            responseDiv.innerHTML = xmlhttp.responseText;
+        }
 
+        var link = `bugTracker.php?a=${newPgTitle}`;
+        if (query != "") {
+            link = `bugTracker.php?a=${newPgTitle}&${query}`;
+        } // End-if
+
+        xmlhttp.open(method, link, true);
+        xmlhttp.send();
+    }; // End-genericAJAXReq
 
     //TO-DO (add anything you think we need to do)
     //-- css needed for background to fill on homepage for <aside>/sidebar and be absolute
@@ -21,182 +42,72 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     //-->Home/Dashboard Link
-    document.getElementsByClassName("dashboard")[0].addEventListener("click", function(event){
-        event.preventDefault();
-        //alert("Dashboard button listener works");
-        var pageTitle = document.getElementById("title");
-        //var textField = document.getElementsByClassName('title')[0].value; //placeholder
+    document.getElementsByClassName("dashboard")[0]
+        .addEventListener("click", function(event){
+            event.preventDefault();
+            genericAJAXReq("GET", "Issues");
 
-        var xmlhttp = new XMLHttpRequest();
-        var pageTitle = document.getElementById("title");
-        pageTitle.innerHTML = "<h1>Issues</h1>";
+            //-->Change Filters
+            //var filterBtn = document.getElementById("filter-button");
+            let allbtn = document.getElementById("all-button");
+            let openbtn = document.getElementById("open-button");
+            let myticketsbtn = document.getElementById("my-tickets-button");
 
-        xmlhttp.onreadystatechange = function() {
-                if (true ) {
-                    if (true ){
-                        pageTitle.innerHTML = "<h1>Issues</h1>";
-                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
+            $('#all-button, #open-button, #my-tickets-button')
+                .on('click', function(event){
+                    event.preventDefault();
+                    var filterQuery = "";
 
+                    if (this.innerHTML == "ALL"){
+                        //alert("All button works");
+                        filterQuery = "ALL";
+                        //alert(filterQuery)
+
+                        allbtn.classList.add("selected-filter");
+                        openbtn.classList.remove("selected-filter");
+                        myticketsbtn.classList.remove("selected-filter");
+                    }
+                    if (this.innerHTML == "OPEN"){
+                        //alert("Open button works");
+                        filterQuery = "OPEN";
+                        //alert(filterQuery)
+
+                        allbtn.classList.remove("selected-filter");
+                        openbtn.classList.add("selected-filter");
+                        myticketsbtn.classList.remove("selected-filter");
+                    }
+                    if (this.innerHTML == "MY TICKETS"){
+                        //alert("My tickets button works");
+                        filterQuery = "MY-TICKETS";
+                        //alert(filterQuery)
+
+                        allbtn.classList.remove("selected-filter");
+                        openbtn.classList.remove("selected-filter");
+                        myticketsbtn.classList.add("selected-filter");
                     }
 
-                }
-                else{
-                    document.getElementById("title").innerHTML = " ";
-                }
-        };
-        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
-        xmlhttp.send();
-
-
+                genericAJAXReq("GET", "Issues", `filter=${filterQuery}`);
+                });
     });
 
     //-->Add User Link
-    document.getElementsByClassName("add-user")[0].addEventListener("click", function(event){
-        event.preventDefault();
-        //alert("Add user button listener works");
-        var xmlhttp = new XMLHttpRequest();
-        var pageTitle = document.getElementById("title");
-        pageTitle.innerHTML = "<h1>New User</h1>";
-        //var textField = document.getElementsByClassName('title')[0].value; //placeholder
-
-
-        xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200 ) {
-                    //if (true ){
-                        pageTitle.innerHTML = "<h1>New User</h1>";
-                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
-
-                    //}
-
-                }
-                else{
-                    document.getElementById("title").innerHTML = " ";
-                }
-        };
-        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
-        xmlhttp.send();
-
-
+    document.getElementsByClassName("add-user")[0]
+        .addEventListener("click", function(event){
+            event.preventDefault();
+            genericAJAXReq("GET", "New User");
     });
 
-
-
     //-->New Issue Link
-    document.getElementsByClassName("new-issue")[0].addEventListener("click", function(event){
-        event.preventDefault();
-        //alert("New issue button listener works");
-        var xmlhttp = new XMLHttpRequest();
-
-        var pageTitle = document.getElementById("title");
-        pageTitle.innerHTML = "<h1>New Issue</h1>";
-        //var textField = document.getElementsByClassName('title')[0].value; //placeholder
-
-
-        xmlhttp.onreadystatechange = function() {
-            pageTitle.innerHTML = "<h1>New Issue</h1>";
-               if (this.readyState == 4 && this.status == 200 ) {
-                    //if (true ){
-                        //pageTitle.innerHTML = "<h1>New Issue</h1>";
-                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
-
-                    //}
-
-                }
-                else{
-                    document.getElementById("title").innerHTML = " ";
-                }
-                //pageTitle.innerHTML = "<h1>New Issue</h1>";
-                //document.getElementById("to-change").innerHTML = this.responseText;
-        };
-        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
-        xmlhttp.send();
-
+    document.getElementsByClassName("new-issue")[0].
+        addEventListener("click", function(event){
+            event.preventDefault();
+            genericAJAXReq("GET", "New Issue");
     });
 
     //-->Logout Link
-    document.getElementsByClassName("log-out")[0].addEventListener("click", function(event){
-        event.preventDefault();
-        //alert("Logout button listener works");
-        var pageTitle = document.getElementById("title");
-        //var textField = document.getElementsByClassName('title')[0].value; //placeholder
-
-        var xmlhttp = new XMLHttpRequest();
-        pageTitle.innerHTML = "<h1>Sign In</h1>";
-
-        xmlhttp.onreadystatechange = function() {
-                pageTitle.innerHTML = "<h1>Sign In</h1>";
-                if (this.readyState == 4 && this.status == 200  ) {
-                    //if (true ){
-                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
-
-                    //}
-
-                }
-                else{
-                    document.getElementById("title").innerHTML = " ";
-                }
-        };
-        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
-        xmlhttp.send();
+    document.getElementsByClassName("log-out")[0]
+        .addEventListener("click", function(event){
+            event.preventDefault();
+            genericAJAXReq("GET", "Sign In");
     });
-
-
-    //-->Change Filters
-
-
-    var filterBtn = document.getElementById("filter-button");
-    var allbtn = document.getElementById("all-button");
-    var openbtn = document.getElementById("open-button");
-    var myticketsbtn = document.getElementById("my-tickets-button");
-
-    $('#all-button, #open-button, #my-tickets-button').on('click', function(event){
-        event.preventDefault();
-        var filterQuery = "";
-
-        if (this.innerHTML == "ALL"){
-            //alert("All button works");
-            filterQuery = "ALL";
-            //alert(filterQuery)
-
-            allbtn.classList.add("selected-filter");
-            openbtn.classList.remove("selected-filter");
-            myticketsbtn.classList.remove("selected-filter");
-        }
-        if (this.innerHTML == "OPEN"){
-            //alert("Open button works");
-            filterQuery = "OPEN";
-            //alert(filterQuery)
-
-            allbtn.classList.remove("selected-filter");
-            openbtn.classList.add("selected-filter");
-            myticketsbtn.classList.remove("selected-filter");
-        }
-        if (this.innerHTML == "MY TICKETS"){
-            //alert("My tickets button works");
-            filterQuery = "MY-TICKETS";
-            //alert(filterQuery)
-
-            allbtn.classList.remove("selected-filter");
-            openbtn.classList.remove("selected-filter");
-            myticketsbtn.classList.add("selected-filter");
-        }
-
-        var xmlhttp = new XMLHttpRequest();
-
-        xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200  ) {
-
-                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
-
-                }
-                else{
-                    document.getElementById("title").innerHTML = " ";
-                }
-        };
-        xmlhttp.open("GET", "bugTracker.php?a=Issues&filter=" + filterQuery, true); //change to the field to go to php
-        xmlhttp.send();
-
-    });
-
-
 });
