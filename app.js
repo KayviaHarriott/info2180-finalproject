@@ -4,20 +4,20 @@ document.addEventListener('DOMContentLoaded', function() {
     //alert("Document loaded");
     var form = document.querySelector('form');
     var pageTitle = document.getElementById("title");
-    var responseDiv = document.getElementById("to-change");
 
     /**
      * @brief Executes the AJAX request
      *
+     * @param Element responseDiv The HTML element to render the response in
      * @param String method The type of HTTP request to make
      * @param String newPgTitle The title of the new screen to be loaded
      * @param String query The data to send in the request
      * @return type
      * @throws conditon
      */
-    let genericAJAXReq = (method, newPgTitle, query = "") => {
+    let genericAJAXReq = (responseDiv, method, newPgTitle, query = "") => {
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
+        xmlhttp.onload = function() {
             pageTitle.innerHTML = `<h1>${newPgTitle}</h1>`;
             responseDiv.innerHTML = xmlhttp.responseText;
         }
@@ -43,71 +43,69 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //-->Home/Dashboard Link
     document.getElementsByClassName("dashboard")[0]
-        .addEventListener("click", function(event){
-            event.preventDefault();
-            genericAJAXReq("GET", "Issues");
+    .addEventListener("click", function(event){
+        event.preventDefault();
+        var responseDiv = document.getElementById("to-change");
+        let newPgTitle = "Issues";
 
-            //-->Change Filters
-            //var filterBtn = document.getElementById("filter-button");
-            let allbtn = document.getElementById("all-button");
-            let openbtn = document.getElementById("open-button");
-            let myticketsbtn = document.getElementById("my-tickets-button");
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onload = function() {
+            pageTitle.innerHTML = `<h1>${newPgTitle}</h1>`;
+            responseDiv.innerHTML = xmlhttp.responseText;
 
-            $('#all-button, #open-button, #my-tickets-button')
-                .on('click', function(event){
+            const filter = document.getElementById("filter");
+            var btn;
+            for (btn of filter.getElementsByTagName("a")){
+                // Adds an event listener that loops through the buttons and
+                // removes the selected-filter class from all of them then
+                // adds the selected filter class to itself
+                btn.addEventListener("click", function(event){
                     event.preventDefault();
-                    var filterQuery = "";
 
-                    if (this.innerHTML == "ALL"){
-                        //alert("All button works");
-                        filterQuery = "ALL";
-                        //alert(filterQuery)
+                    const filter = document.getElementById("filter");
+                    for (btn of filter.getElementsByTagName("a")){
+                        btn.classList.remove("selected-filter");
+                    } // End-for
+                    event.target.classList.add("selected-filter");
 
-                        allbtn.classList.add("selected-filter");
-                        openbtn.classList.remove("selected-filter");
-                        myticketsbtn.classList.remove("selected-filter");
-                    }
-                    if (this.innerHTML == "OPEN"){
-                        //alert("Open button works");
-                        filterQuery = "OPEN";
-                        //alert(filterQuery)
+                    let responseDiv = document.getElementById("issue-list");
+                    let query = `filter=${event.target.innerText}`;
+                    genericAJAXReq(responseDiv, "GET", "Issue List", query);
+                }); // End-eventListener
 
-                        allbtn.classList.remove("selected-filter");
-                        openbtn.classList.add("selected-filter");
-                        myticketsbtn.classList.remove("selected-filter");
-                    }
-                    if (this.innerHTML == "MY TICKETS"){
-                        //alert("My tickets button works");
-                        filterQuery = "MY-TICKETS";
-                        //alert(filterQuery)
+                // Initialises the All button as the selected one
+                if (btn.innerText == "ALL") {
+                    btn.classList.add("selected-filter");
+                } // End-if
+            } // End-for
+        }; // End-onload
 
-                        allbtn.classList.remove("selected-filter");
-                        openbtn.classList.remove("selected-filter");
-                        myticketsbtn.classList.add("selected-filter");
-                    }
-
-                genericAJAXReq("GET", "Issues", `filter=${filterQuery}`);
-                });
+        let link = `bugTracker.php?a=${newPgTitle}`;
+        xmlhttp.open("GET", link, true);
+        xmlhttp.send();
     });
 
     //-->Add User Link
     document.getElementsByClassName("add-user")[0]
-        .addEventListener("click", function(event){
-            event.preventDefault();
-            genericAJAXReq("GET", "New User");
+    .addEventListener("click", function(event){
+        event.preventDefault();
+        var responseDiv = document.getElementById("to-change");
+        genericAJAXReq(responseDiv, "GET", "New User");
     });
 
     //-->New Issue Link
     document.getElementsByClassName("new-issue")[0].
-        addEventListener("click", function(event){
-            event.preventDefault();
-            genericAJAXReq("GET", "New Issue");
+    addEventListener("click", function(event){
+        event.preventDefault();
+        var responseDiv = document.getElementById("to-change");
+        genericAJAXReq(responseDiv, "GET", "New Issue");
     });
 
     //-->Logout Link
     document.getElementsByClassName("log-out")[0]
-        .addEventListener("click", function(event){
-            event.preventDefault();
-            genericAJAXReq("GET", "Sign In");
+    .addEventListener("click", function(event){
+        event.preventDefault();
+        var responseDiv = document.getElementById("to-change");
+        genericAJAXReq(responseDiv, "GET", "Sign In");
     });
 });

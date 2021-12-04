@@ -19,6 +19,9 @@ if (array_key_exists("a", $_GET)){
         case "Issues":
             include "issueView.php";
             break;
+        case "Issue List":
+            include "issueList.php";
+            break;
         default: ?>
             <h1 class="server-error">Page Not Found</h1>
             <?php break;
