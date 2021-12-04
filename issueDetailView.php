@@ -27,11 +27,11 @@
     <div id="overview-issue" class="overview-issue">
         <h4 id="assignedTo-issue">Assigned To</h4>
         <p>Tom Brady</p>
-        <h4 id="type-issue">Type</h4>
+        <h4 id="type-issue">Type:</h4>
         <p>Proposal</p>
-        <h4 id="priority-issue">Priority</h4>
+        <h4 id="priority-issue">Priority:</h4>
         <p>Major</p>
-        <h4 id="status-issue">Status</h4>
+        <h4 id="status-issue">Status:</h4>
         <p>Open</p>
     </div>
     <div id="detail-issue-buttons" class="detail-issue-buttons" >
