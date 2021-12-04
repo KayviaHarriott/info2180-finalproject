@@ -1,4 +1,10 @@
 <div class="issue-detailed-container">
+                        <div class="title" id="title">
+                            <h1>XSS Vulnerability in Add User Form</h1>                       
+                            <div id="issue-title" class="issue-title">
+                                <h4>Issue #100</h4>
+                            </div>                  
+                        </div>
                         <br>
                         <div id= "issue-detailed" class= "issue-detailed">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam odio elit, 
