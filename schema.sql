@@ -50,9 +50,6 @@ CREATE TABLE `issues` (
 -- Data for `users` table
 --
 
-
-
-
 -- REMEMBER TO HASH THE PASSWORD AND COPY THE HASH HERE
 INSERT INTO `users` (
     `firstname`,
@@ -125,5 +122,3 @@ VALUES
     2,
     1
 );
-
-

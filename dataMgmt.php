@@ -87,7 +87,8 @@ function execQuery(string $query, array $binds = [], int $mode) {
  */
 function getUsers() {
     $query = "SELECT `id`, `firstname`, `lastname` FROM users";
-    return execQuery($query, [], PDO::FETCH_ASSOC);
+    $result = execQuery($query, [], PDO::FETCH_ASSOC);
+    return $result;
 } // End-getUsers
 
 /**
@@ -139,7 +140,8 @@ function getIssues($filter = []) {
             (`issues` as i JOIN `users` as a
                 ON i.`assigned_to`=a.`id`){$clauses};";
 
-    return execQuery($query, [], PDO::FETCH_ASSOC);
+    $result = execQuery($query, [], PDO::FETCH_ASSOC);
+    return $result;
 } // End-getIssues
 
 /**
@@ -168,10 +170,8 @@ function createUser($uData) {
         ];
 
         $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
-        return true;
-    }else{
-        return false;
     } // End-if
+    return json_encode($result);
 } // End-createUser
 
 /**
@@ -195,32 +195,37 @@ function createIssue($iData) {
     ];
 
     $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
+    return json_encode($result);
 } // End-createIssue
 
 /**
  * @brief Returns true if the credentials provided match the ones in the
  *        database
  *
- * @param array $uData An associative array of the data to create the issue
+ * @param array $uData An associative array of the users credentials
  */
-function verifyUser($uEmail, $uPasswd) {
-    $email = filterData($uEmail);
+function verifyUser($uData) {
+    $data = filterDataArray($uData);
 
     $bugTrackerDB = connectToDB();
     $query = "SELECT `id`, `firstname`, `lastname` FROM users
-        WHERE `email` = :uEmail and `password` = :uPasswd FROM users";
+        WHERE `email` = :uEmail and `password` = :uPasswd";
 
     $binds = [":uEmail" => $data["email"],
-        ":uPasswd" => password_hash($data["passwd"])
+        //":uPasswd" => password_hash($data["passwd"], PASSWORD_DEFAULT)
+        ":uPasswd" => $data["passwd"]
     ];
 
     $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
 
-    if ($result != []) {
-        return json_encode($result);
-    }else{
-        return json_encode(["auth" => false]);
-    } // End-if
+    $result["auth"] = false;
+    $result["binds"] = $binds;
+    return json_encode($result);
+    // if ($result != []) {
+    //     $result["auth"] = true;
+    //     return json_encode($result);
+    // }else{
+    //     return json_encode(["auth" => false]);
+    // } // End-if
 } // End-verifyUser
-
 ?>

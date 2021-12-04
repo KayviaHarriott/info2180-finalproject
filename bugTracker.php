@@ -30,23 +30,27 @@ if (array_key_exists("a", $_GET)){
 
 if (array_key_exists("a", $_POST)){
     $action = filterData($_POST["a"]);
+    //header("Content-Type: application/json; charset=utf-8");
+    header("Content-Type: application/json;");
 
     switch ($action) {
         case "add-user":
             echo addUser();
             break;
         case "sign-in":
-            echo verifyUser($_POST["email"], $_POST["passwd"]);
+            echo verifyUser([
+                "email" => $_POST["email"],
+                "passwd" => $_POST["passwd"]
+            ]);
             break;
         case "log-out":
-            echo "<h1>LOGOUT</h1>";
+            echo json_encode(["status" => "LOGOUT"]);
             break;
         case "add-issue":
             echo addIssue();
             break;
         default:
-            // Respond with a 404 or something
-            echo "Error";
+            echo json_encode(["status" => "ERROR"]);
             break;
     } // End-switch-case
 } // End-if
@@ -86,10 +90,14 @@ function addUser() {
     } // End-foreach
 
     if (count($err) == 0) {
-        createUser($_POST);
-    }else{
-        return json_encode($err);
+        $data = [];
+        $attributes = ["f-name", "l-name", "email", "passwd"];
+        foreach ($attributes as $a) {
+            $data[$a] = $_POST[$a];
+        } // End-foreach
+        return createUser($data);
     } // End-if
+    return json_encode($err);
 } // End-addUser
 
 function addIssue() {
@@ -142,8 +150,9 @@ function addIssue() {
         foreach ($attributes as $a) {
             $data[$a] = $_POST[$a];
         } // End-foreach
-        createIssue($data);
+        return createIssue($data);
     } // End-if
+    return json_encode($err);
 } // End-addIssue
 
 ?>
