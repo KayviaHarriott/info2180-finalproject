@@ -216,10 +216,10 @@ function verifyUser($uEmail, $uPasswd) {
 
     $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
 
-    if (count(result) == 1) {
+    if ($result != []) {
         return json_encode($result);
     }else{
-        return false;
+        return json_encode(["auth" => false]);
     } // End-if
 } // End-verifyUser
 

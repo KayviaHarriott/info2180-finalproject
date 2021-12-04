@@ -33,16 +33,16 @@ if (array_key_exists("a", $_POST)){
 
     switch ($action) {
         case "add-user":
-            addUser();
+            echo addUser();
             break;
         case "sign-in":
-            echo "<h1>TESTING</h1>";
+            echo verifyUser($_POST["email"], $_POST["passwd"]);
             break;
         case "log-out":
-            //
+            echo "<h1>LOGOUT</h1>";
             break;
         case "add-issue":
-            addIssue();
+            echo addIssue();
             break;
         default:
             // Respond with a 404 or something
