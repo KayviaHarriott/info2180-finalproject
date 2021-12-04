@@ -142,90 +142,61 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     //-->Change Filters
+
+    
+    var filterBtn = document.getElementById("filter-button");
     var allbtn = document.getElementById("all-button");
     var openbtn = document.getElementById("open-button");
     var myticketsbtn = document.getElementById("my-tickets-button");
 
-
-
-
-    allbtn.addEventListener("click", function(event){
+    $('#all-button, #open-button, #my-tickets-button').on('click', function(event){
         event.preventDefault();
-        allbtn.classList.add("selected-filter");
-        openbtn.classList.remove("selected-filter");
-        myticketsbtn.classList.remove("selected-filter");
-        var pageTitle = document.getElementById(""); //should be for filter it's trying to get in php
+        var filterQuery = "";
+
+        if (this.innerHTML == "ALL"){
+            //alert("All button works");
+            filterQuery = "ALL";
+            //alert(filterQuery)
+
+            allbtn.classList.add("selected-filter");
+            openbtn.classList.remove("selected-filter");
+            myticketsbtn.classList.remove("selected-filter");
+        }
+        if (this.innerHTML == "OPEN"){
+            //alert("Open button works");
+            filterQuery = "OPEN";
+            //alert(filterQuery)
+
+            allbtn.classList.remove("selected-filter");
+            openbtn.classList.add("selected-filter");
+            myticketsbtn.classList.remove("selected-filter");
+        }
+        if (this.innerHTML == "MY TICKETS"){
+            //alert("My tickets button works");
+            filterQuery = "MY-TICKETS";
+            //alert(filterQuery)
+
+            allbtn.classList.remove("selected-filter");
+            openbtn.classList.remove("selected-filter");
+            myticketsbtn.classList.add("selected-filter");
+        }
+        
         var xmlhttp = new XMLHttpRequest();
 
         xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200  ) {
-
+                    
                         document.getElementById("to-change").innerHTML = xmlhttp.responseText;
-                        allbtn.classList.add("selected-filter");
-                        openbtn.classList.remove("selected-filter");
-                        myticketsbtn.classList.remove("selected-filter");
+
                 }
                 else{
-
+                    document.getElementById("title").innerHTML = " ";
                 }
         };
-        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
-        xmlhttp.send();
-
-
-    });
-
-    openbtn.addEventListener("click", function(event){
-        event.preventDefault();
-        openbtn.classList.add("selected-filter");
-        allbtn.classList.remove("selected-filter");
-        myticketsbtn.classList.remove("selected-filter");
-
-
-        var pageTitle = document.getElementById(""); //should be for filter it's trying to get in php
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200  ) {
-                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
-                        openbtn.classList.add("selected-filter");
-                        allbtn.remove("selected-filter");
-                        myticketsbtn.remove("selected-filter");
-                }
-                else{
-
-                }
-        };
-        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
-        xmlhttp.send();
+        xmlhttp.open("GET", "bugTracker.php?a=" + filterQuery, true); //change to the field to go to php
+        xmlhttp.send();        
 
     });
-
-    myticketsbtn.addEventListener("click", function(event){
-        event.preventDefault();
-        myticketsbtn.classList.add("selected-filter");
-        allbtn.classList.remove("selected-filter");
-        openbtn.classList.remove("selected-filter");
-
-        var pageTitle = document.getElementById(""); //should be for filter it's trying to get in php
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200  ) {
-                        document.getElementById("to-change").innerHTML = xmlhttp.responseText;
-                        myticketsbtn.classList.add("selected-filter");
-                        allbtn.classList.remove("selected-filter");
-                        openbtn.classList.remove("selected-filter");
-                }
-                else{
-
-                }
-        };
-        xmlhttp.open("GET", "bugTracker.php?a=" + pageTitle.innerText, true); //change to the field to go to php
-        xmlhttp.send();
-
-
-    });
-
-
 
 
 });

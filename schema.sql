@@ -1,12 +1,12 @@
 -- You may need to run the commented out lines as a user with permission to
 -- create users and grant permissions
 
--- CREATE USER IF NOT EXISTS bugmeAdmin IDENTIFIED BY 'password123';
+--CREATE USER IF NOT EXISTS bugmeAdmin IDENTIFIED BY 'password123';
 
 DROP DATABASE IF EXISTS `bugme`;
 CREATE DATABASE `bugme`;
 
--- GRANT ALL PRIVILEGES ON bugme.* TO bugmeAdmin;
+GRANT ALL PRIVILEGES ON bugme.* TO bugmeAdmin;
 
 USE `bugme`;
 
