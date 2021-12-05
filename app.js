@@ -243,7 +243,40 @@ function loadIssueDetails(iid){
     let link = `bugTracker.php?a=Issue Detail&iid=${iid}`;
     ajaxGetReq(link, function(xmlhttp) {
         responseDiv.innerHTML = xmlhttp.responseText;
-        // #TODO add event listeners for the buttons
+
+        document.getElementById("mark-closed-button")
+        .addEventListener("click", function(event) {
+            event.preventDefault();
+            let link = `${baseUrl}`;
+            let data = {
+                "id": iid,
+                "status": "closed"
+            };
+            //ajaxPostReq();
+            //if (res.status == "success"){
+            //    loadIssueDetails(iid);
+            //}else{
+            //    alert(res.status);
+            //} // End-if
+            alert("closed");
+        });
+
+        document.getElementById("mark-in-progress-button")
+        .addEventListener("click", function(event) {
+            event.preventDefault();
+            let link = `${baseUrl}`;
+            let data = {
+                "id": iid,
+                "status": "in-progress"
+            };
+            //ajaxPostReq();
+            //if (res.status == "success"){
+            //    loadIssueDetails(iid);
+            //}else{
+            //    alert(res.status);
+            //} // End-if
+            alert("In progress");
+        });
     });
 } // End-loadIssueDetails
 
@@ -254,6 +287,28 @@ function createUserListener(event) {
     let link = `bugTracker.php?a=${newPgTitle}`;
     ajaxGetReq(link, function(xmlhttp) {
         responseDiv.innerHTML = xmlhttp.responseText;
+
+        document.getElementById("new-user-button")
+        .addEventListener("click", function(event) {
+            event.preventDefault();
+            let fields = {
+                "f-name": document.getElementById("f-name"),
+                "l-name": document.getElementById("l-name"),
+                "email": document.getElementById("email"),
+                "p-word": document.getElementById("p-word"),
+            };
+
+            let link = `${baseUrl}`;
+            // Send to backend
+            // if (res.status != "success") {
+            //     var e;
+            //     for (e of res) {
+            //         alert("Invalid ${e}");
+            //     } // End-for
+            // }else{
+            //     alert("user created");
+            // } // End-if
+        })
         alert("Create User");
     });
 } // End-createUserListener
@@ -265,6 +320,32 @@ function createIssueListener(event) {
     let link = `bugTracker.php?a=${newPgTitle}`;
     ajaxGetReq(link, function(xmlhttp) {
         responseDiv.innerHTML = xmlhttp.responseText;
+
+        document.getElementById("new-issue-button")
+        .addEventListener("click", function(event) {
+            event.preventDefault();
+
+            let fields = {
+                "title": document.getElementById("i-title"),
+                "desc": document.getElementById("i-desc"),
+                "type": document.getElementById("i-assign"),
+                "pri": document.getElementById("i-type"),
+                "assign": document.getElementById("i-priority")
+            };
+
+            let link = `${baseUrl}`;
+            // Send to backend
+            // remember to send the session Id in the creator param
+
+            // if (res.status != "success") {
+            //     var e;
+            //     for (e of res) {
+            //         alert("Invalid ${e}");
+            //     } // End-for
+            // }else{
+            //     alert("user created");
+            // } // End-if
+        });
         alert("Create Issue");
     });
 } // End-createIssueListener

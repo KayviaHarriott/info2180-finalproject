@@ -39,7 +39,8 @@ CREATE TABLE `issues` (
     `assigned_to` int(11) NOT NULL,
     `created_by` int(11) NOT NULL,
     `created` datetime NOT NULL DEFAULT current_timestamp(),
-    `updated` datetime NOT NULL DEFAULT current_timestamp(),
+    `updated` datetime NOT NULL DEFAULT current_timestamp()
+        ON UPDATE current_timestamp(),
 
     PRIMARY KEY(`id`),
     FOREIGN KEY(`created_by`) REFERENCES `users`(`id`) ON UPDATE cascade,
