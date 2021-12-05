@@ -127,16 +127,34 @@ aside{
     height: 30px;
     width: 100%;
     text-align: center;
+    cursor:pointer;
     
 }
+#submit-button:hover, #sign-in-button:hover, #new-user-button:hover, #new-submit-issue-button:hover, #new-issue-button:hover{
+    background-color:rgb(18, 85, 167) !important;
+    cursor:pointer;
+}
+
 
 #mark-closed-button{
     background-color: rgba(27, 106, 201, 1);
+    cursor:pointer;
 
 }
 
 #mark-in-progress-button{
     background-color: rgba(45, 165, 98, 1);
+    cursor:pointer;
+}
+
+#mark-closed-button:hover{
+    background-color:rgb(18, 80, 156) !important;
+    cursor:pointer;
+}
+
+#mark-in-progress-button:hover{
+    background-color:rgb(22, 139, 75) !important;
+    cursor:pointer;
 }
 
 
