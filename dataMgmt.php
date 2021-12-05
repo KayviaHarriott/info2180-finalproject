@@ -60,7 +60,7 @@ function filterDataArray(array $dataArr) {
  * @param array $binds An associative array of binds used in the query and
  *                     the value to be bound
  * @param int $mode The mode to fetch the results in
- * @return Mixed
+ * @return array
  */
 function execQuery(string $query, array $binds = [], int $mode) {
     $bugTrackerDB = connectToDB();
@@ -179,13 +179,13 @@ function getIssues($filter = []) {
  * @brief Adds a new user to the database
  *
  * @param array $uData An associative array of the data to create the issue
- * @return bool
+ * @return JSON
  */
 function createUser($uData) {
     $data = filterDataArray($uData);
 
     $query = "SELECT `email` FROM users WHERE `email` = :uEmail";
-    $binds = [":uEmail" => $data["email"]];
+    $binds = [":uEmail" => [$data["email"], PDO::PARAM_STR]];
 
     $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
 
@@ -194,24 +194,27 @@ function createUser($uData) {
                 `email`)
             VALUES (:uFname, :uLname, :uPasswd, :uEmail)";
 
-        $binds = [":uFname" => [$data["fname"], PDO::PARAM_STR],
-            ":uLname" => [$data["lname"], PDO::PARAM_STR],
-            ":uPasswd" => [password_hash($data["passwd"]), PDO::PARAM_STR],
+        $binds = [":uFname" => [$data["f-name"], PDO::PARAM_STR],
+            ":uLname" => [$data["l-name"], PDO::PARAM_STR],
+            ":uPasswd" => [password_hash($data["passwd"], PASSWORD_DEFAULT), PDO::PARAM_STR],
             ":uEmail" => [$data["email"], PDO::PARAM_STR]
         ];
 
         $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
+        return json_encode(["status" => "success"]);
     } // End-if
-    return json_encode($result);
+    return json_encode(["status" => "user already exists with that email"]);
 } // End-createUser
 
 /**
  * @brief Adds a new issue to the database
  *
  * @param array $iData An associative array of the data to create the issue
+ * @return JSON
  */
 function createIssue($iData) {
     $data = filterDataArray($iData);
+    var_dump($data);
 
     $query = "INSERT INTO issues (`title`, `description`, `type`, `priority`,
             `assigned_to`, `created_by`)
@@ -222,7 +225,8 @@ function createIssue($iData) {
         ":iType" => [$data["type"], PDO::PARAM_STR],
         ":iPri" => [$data["pri"], PDO::PARAM_STR],
         ":iAssign" => [$data["assign"], PDO::PARAM_INT],
-        ":iCreator" => [$data["creator"], PDO::PARAM_INT]
+        //":iCreator" => [$data["creator"], PDO::PARAM_INT]
+        ":iCreator" => [1, PDO::PARAM_INT]
     ];
 
     $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
@@ -230,10 +234,63 @@ function createIssue($iData) {
 } // End-createIssue
 
 /**
+ * @brief Updates the status of the issue
+ *
+ * @param array $filter An associative array of ise issue id and the new
+ *                      status
+ * @return JSON
+ */
+function updateIssueStatus($iStatus) {
+    $data = filterDataArray($iStatus);
+    $binds = [];
+    $err = [];
+    $issue = getIssues(["id" => $data["id"]]);
+
+    if (count($issue) == 1) {
+        $issue = $issue[0];
+
+        if ($issue["status"] != "CLOSED") {
+            // Generates the bind
+            switch ($data["status"]) {
+                case "in-progress":
+                    if ($issue["status"] != "IN PROGRESS") {
+                        $binds[":iStatus"] = ["IN PROGRESS", PDO::PARAM_STR];
+                    }else{
+                        $err["status"] = "status already set";
+                    } // End-if
+                    break;
+                case "closed":
+                    if ($issue["status"] != "CLOSED") {
+                        $binds[":iStatus"] = ["CLOSED", PDO::PARAM_STR];
+                    }else{
+                        $err["status"] = "status already set";
+                    } // End-if
+                    break;
+                default:
+                    $err["status"] = "invalid status";
+                    break;
+            } // End-switch-case
+
+            if (count($err) == 0) {
+                $query = "UPDATE issues SET `status` = :iStatus WHERE `id` = :iID";
+                $binds[":iID"] = [$data["id"], PDO::PARAM_INT];
+                $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
+                return json_encode(["status" => "success"]);
+            } // End-if
+        } // End-if
+        $err["status"] = "issue already closed";
+    }else{
+        $err["status"] = "ERROR";
+    } // End-if
+    return json_encode($err);
+} // End-updateIssueStatus
+
+/**
  * @brief Returns true if the credentials provided match the ones in the
  *        database
  *
  * @param array $uData An associative array of the users credentials
+ * @return JSON
  */
 function verifyUser($uData) {
     $data = filterDataArray($uData);

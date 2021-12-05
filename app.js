@@ -219,13 +219,12 @@ function loadDashboard(){
 
 function loadIssueList(filter) {
     let issueLst = document.getElementById("issue-list");
-    let link = `bugTracker.php?a=Issue List&${filter}`;
+    let link = `bugTracker.php?a=Issue List&filter=${filter}`;
     ajaxGetReq(link, function(xmlhttp) {
         issueLst.innerHTML = xmlhttp.responseText;
 
         let issues = issueLst.getElementsByTagName("tbody")[0]
             .getElementsByTagName("tr");
-        console.log(issues);
         var i;
         for (i of issues){
             i.getElementsByTagName("td")[0]

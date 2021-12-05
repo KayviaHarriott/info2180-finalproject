@@ -51,6 +51,12 @@ if (array_key_exists("a", $_POST)){
         case "add-issue":
             echo addIssue();
             break;
+        case "update-issue-status":
+            echo updateIssueStatus([
+                "id" => $_POST["id"],
+                "status" => $_POST["status"]
+            ]);
+            break;
         default:
             echo json_encode(["status" => "ERROR"]);
             break;
@@ -58,6 +64,7 @@ if (array_key_exists("a", $_POST)){
 } // End-if
 
 function addUser() {
+    $attributes = ["f-name", "l-name", "email", "passwd"];
     $alpha = "A-Za-z";
     $alphaNum = "${alpha}0-9";
     $tld = "\.[${alpha}][${alphaNum}]*";
@@ -67,42 +74,51 @@ function addUser() {
     $realNameRegex = "/^[{$alpha}]+$/";
     $emailRegex = "/^${username}@${hostname}${tld}$/";
 
-    foreach ($_POST as $k => $v) {
-        $err = [];
-        switch ($k) {
-            case "f-name":
-                if (preg_match($realNameRegex, $v) != 1) {
-                    $err[$k] = false;
-                } // End-if
-                break;
-            case "l-name":
-                if (preg_match($realNameRegex, $v) != 1) {
-                    $err[$k] = false;
-                } // End-if
-                break;
-            case "email":
-                if (preg_match($emailRegex, $v) != 1) {
-                    $err[$k] = false;
-                } // End-if
-                break;
-            default:
-                // Do nothing
-                break;
-        } // End-switch-case
+    $isValid = true;
+    foreach ($attributes as $a) {
+        $isValid = $isValid && array_key_exists($a, $_POST);
     } // End-foreach
 
-    if (count($err) == 0) {
-        $data = [];
-        $attributes = ["f-name", "l-name", "email", "passwd"];
-        foreach ($attributes as $a) {
-            $data[$a] = $_POST[$a];
+    $err = [];
+    if ($isValid) {
+        foreach ($_POST as $k => $v) {
+            switch ($k) {
+                case "f-name":
+                    if (preg_match($realNameRegex, $v) != 1) {
+                        $err[$k] = false;
+                    } // End-if
+                    break;
+                case "l-name":
+                    if (preg_match($realNameRegex, $v) != 1) {
+                        $err[$k] = false;
+                    } // End-if
+                    break;
+                case "email":
+                    if (preg_match($emailRegex, $v) != 1) {
+                        $err[$k] = false;
+                    } // End-if
+                    break;
+                default:
+                    // Do nothing
+                    break;
+            } // End-switch-case
         } // End-foreach
-        return createUser($data);
+
+        if (count($err) == 0) {
+            $data = [];
+            foreach ($attributes as $a) {
+                $data[$a] = $_POST[$a];
+            } // End-foreach
+            return createUser($data);
+        } // End-if
+    }else{
+        $err["status"] = "data missing";
     } // End-if
     return json_encode($err);
 } // End-addUser
 
 function addIssue() {
+    $attributes = ["title", "desc", "type", "pri", "assign", "creator"];
     $alpha = "A-Za-z";
     $alphaNum = "${alpha}0-9";
     $tld = "\.[${alpha}][${alphaNum}]*";
@@ -112,49 +128,56 @@ function addIssue() {
     $realNameRegex = "/^[{$alpha}]+$/";
     $emailRegex = "/^${username}@${hostname}${tld}$/";
 
-    foreach ($_POST as $k => $v) {
-        $err = [];
-        switch ($k) {
-            case "title":
-                if (preg_match("/^[\w]+$/", $v) != 1) {
-                    $err[$k] = false;
-                } // End-if
-                break;
-            case "desc":
-                if (preg_match("/^[\w]+$/", $v) != 1) {
-                    $err[$k] = false;
-                } // End-if
-                break;
-            case "assign":
-                if (preg_match("/^[\d]+$/", $v) != 1) {
-                    $err[$k] = false;
-                } // End-if
-                break;
-            case "type":
-                if (preg_match("/^(Bug)|(Proposal)|(Task)$/", $v) != 1) {
-                    $err[$k] = false;
-                } // End-if
-                break;
-            case "priority":
-                if (preg_match("/^(Minor)|(Major)|(Critical)$/", $v) != 1) {
-                    $err[$k] = false;
-                } // End-if
-                break;
-            default:
-                // Do nothing
-                break;
-        } // End-switch-case
+    $isValid = true;
+    foreach ($attributes as $a) {
+        $isValid = $isValid && array_key_exists($a, $_POST);
     } // End-foreach
 
-    if (count($err) == 0) {
-        $data = [];
-        $attributes = ["title", "desc", "type", "pri", "assign", "creator"];
-        foreach ($attributes as $a) {
-            $data[$a] = $_POST[$a];
+    $err = [];
+    if ($isValid) {
+        foreach ($_POST as $k => $v) {
+            switch ($k) {
+                case "title":
+                    if (preg_match("/^[\w]+$/", $v) != 1) {
+                        $err[$k] = false;
+                    } // End-if
+                    break;
+                case "desc":
+                    if (preg_match("/^[\w]+$/", $v) != 1) {
+                        $err[$k] = false;
+                    } // End-if
+                    break;
+                case "assign":
+                    if (preg_match("/^[\d]+$/", $v) != 1) {
+                        $err[$k] = false;
+                    } // End-if
+                    break;
+                case "type":
+                    if (preg_match("/^(Bug)|(Proposal)|(Task)$/", $v) != 1) {
+                        $err[$k] = false;
+                    } // End-if
+                    break;
+                case "pri":
+                    if (preg_match("/^(Minor)|(Major)|(Critical)$/", $v) != 1) {
+                        $err[$k] = false;
+                    } // End-if
+                    break;
+                default:
+                    // Do nothing
+                    break;
+            } // End-switch-case
         } // End-foreach
-        return createIssue($data);
+
+        if (count($err) == 0) {
+            $data = [];
+            foreach ($attributes as $a) {
+                $data[$a] = $_POST[$a];
+            } // End-foreach
+            return createIssue($data);
+        } // End-if
+    }else{
+        $err["status"] = "data missing";
     } // End-if
     return json_encode($err);
 } // End-addIssue
-
 ?>
