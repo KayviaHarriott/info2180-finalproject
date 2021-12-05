@@ -68,10 +68,11 @@ function execQuery(string $query, array $binds = [], int $mode) {
     $stmt = $bugTrackerDB->prepare($query);
 
     foreach ($binds as $k => $v) {
-        $stmt->bindValue($k, $v);
+        $stmt->bindValue($k, $v[0], $v[1]);
     } // End-foreach
 
     $stmt->execute();
+    //echo $stmt->queryString;
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Closes the connection
@@ -85,9 +86,30 @@ function execQuery(string $query, array $binds = [], int $mode) {
  *
  * @return array
  */
-function getUsers() {
-    $query = "SELECT `id`, `firstname`, `lastname` FROM users";
-    $result = execQuery($query, [], PDO::FETCH_ASSOC);
+function getUsers($filter = []) {
+    $data = filterDataArray($filter);
+    $clauses = "";
+    $binds = [];
+
+    // Converts the filter criteria into a WHERE clause in SQL
+    foreach ($data as $k => $v) {
+        switch ($k) {
+            case "id":
+                $clauses = $clauses . "`id` = :uID and ";
+                $binds[":uID"] = [intval($v), PDO::PARAM_INT];
+                break;
+            default:
+                $clauses = $clauses . "";
+                break;
+        } // End-switch-case
+    } // End-foreach
+
+    if (strlen($clauses) > 0) {
+        $clauses = " WHERE " . (rtrim($clauses, " and "));
+    } // End-if
+
+    $query = "SELECT `id`, `firstname`, `lastname` FROM users{$clauses}";
+    $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
     return $result;
 } // End-getUsers
 
@@ -101,6 +123,7 @@ function getUsers() {
 function getIssues($filter = []) {
     $data = filterDataArray($filter);
     $clauses = "";
+    $binds = [];
 
     // Converts the filter criteria into a WHERE clause in SQL
     foreach ($data as $k => $v) {
@@ -108,21 +131,29 @@ function getIssues($filter = []) {
             case "status":
                 switch ($v) {
                     case "open":
-                        $clauses = $clauses . "status = 'OPEN' and ";
+                        $clauses = $clauses . "`status` = :iStatus and ";
+                        $binds[":iStatus"] = ["OPEN", PDO::PARAM_STR];
                         break;
                     case "in-progress":
-                        $clauses = $clauses . "status = 'IN PROGRESS' and ";
+                        $clauses = $clauses . "`status` = :iStatus and ";
+                        $binds[":iStatus"] = ["IN PROGRESS", PDO::PARAM_STR];
                         break;
                     case "closed":
-                        $clauses = $clauses . "status = 'CLOSED' and ";
+                        $clauses = $clauses . "`status` = :iStatus and ";
+                        $binds[":iStatus"] = ["CLOSED", PDO::PARAM_STR];
                         break;
                     default:
                         $clauses = $clauses . "";
                         break;
                 } // End-switch-case
                 break;
-            case "owner":
-                $clauses = $clauses . "created_by = {$v} and ";
+            case "assignedTo":
+                $clauses = $clauses . "`assigned_to` = :iAssig and ";
+                $binds[":iAssig"] = [intval($v), PDO::PARAM_INT];
+                break;
+            case "id":
+                $clauses = $clauses . "i.`id` = :iID and ";
+                $binds[":iID"] = [intval($v), PDO::PARAM_INT];
                 break;
             default:
                 $clauses = $clauses . "";
@@ -134,13 +165,11 @@ function getIssues($filter = []) {
         $clauses = " WHERE " . (rtrim($clauses, " and "));
     } // End-if
 
-    $query = "SELECT i.`id`, `title`, `type`, `status`, `firstname`,
-            `lastname`, `created`
-        FROM
+    $query = "SELECT * FROM
             (`issues` as i JOIN `users` as a
                 ON i.`assigned_to`=a.`id`){$clauses};";
 
-    $result = execQuery($query, [], PDO::FETCH_ASSOC);
+    $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
     return $result;
 } // End-getIssues
 
@@ -163,10 +192,10 @@ function createUser($uData) {
                 `email`)
             VALUES (:uFname, :uLname, :uPasswd, :uEmail)";
 
-        $binds = [":uFname" => $data["fname"],
-            ":uLname" => $data["lname"],
-            ":uPasswd" => password_hash($data["passwd"]),
-            ":uEmail" => $data["email"]
+        $binds = [":uFname" => [$data["fname"], PDO::PARAM_STR],
+            ":uLname" => [$data["lname"], PDO::PARAM_STR],
+            ":uPasswd" => [password_hash($data["passwd"]), PDO::PARAM_STR],
+            ":uEmail" => [$data["email"], PDO::PARAM_STR]
         ];
 
         $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
@@ -186,12 +215,12 @@ function createIssue($iData) {
             `assigned_to`, `created_by`)
         VALUES (:iTitle, :iDesc, :iType, :iPri, :iAssign, :iCreator)";
 
-    $binds = [":iTitle" => $data["title"],
-        ":iDesc" => $data["desc"],
-        ":iType" => $data["type"],
-        ":iPri" => $data["pri"],
-        ":iAssign" => $data["assign"],
-        ":iCreator" => $data["creator"]
+    $binds = [":iTitle" => [$data["title"], PDO::PARAM_STR],
+        ":iDesc" => [$data["desc"], PDO::PARAM_STR],
+        ":iType" => [$data["type"], PDO::PARAM_STR],
+        ":iPri" => [$data["pri"], PDO::PARAM_STR],
+        ":iAssign" => [$data["assign"], PDO::PARAM_INT],
+        ":iCreator" => [$data["creator"], PDO::PARAM_INT]
     ];
 
     $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
@@ -211,9 +240,9 @@ function verifyUser($uData) {
     $query = "SELECT `id`, `firstname`, `lastname` FROM users
         WHERE `email` = :uEmail and `password` = :uPasswd";
 
-    $binds = [":uEmail" => $data["email"],
-        //":uPasswd" => password_hash($data["passwd"], PASSWORD_DEFAULT)
-        ":uPasswd" => $data["passwd"]
+    $binds = [":uEmail" => [$data["email"], PDO::PARAM_STR],
+        //":uPasswd" => [password_hash($data["passwd"], PASSWORD_DEFAULT), PDO::PARAM_STR]
+        ":uPasswd" => [$data["passwd"], PDO::PARAM_STR]
     ];
 
     $result = execQuery($query, $binds, PDO::FETCH_ASSOC);

@@ -190,6 +190,7 @@ function loadDashboard(){
     let link = `bugTracker.php?a=${newPgTitle}`;
     ajaxGetReq(link, function(xmlhttp) {
         responseDiv.innerHTML = xmlhttp.responseText;
+        loadIssueList("ALL");
 
         const filter = document.getElementById("filter");
         var btn;
@@ -200,18 +201,12 @@ function loadDashboard(){
             btn.addEventListener("click", function(event){
                 event.preventDefault();
 
-                const filter = document.getElementById("filter");
                 for (btn of filter.getElementsByTagName("a")){
                     btn.classList.remove("selected-filter");
                 } // End-for
                 event.target.classList.add("selected-filter");
 
-                let issueLst = document.getElementById("issue-list");
-                let query = `filter=${event.target.innerText}`;
-                let link = `bugTracker.php?a=Issue List&${query}`;
-                ajaxGetReq(link, function(xmlhttp) {
-                    issueLst.innerHTML = xmlhttp.responseText
-                });
+                loadIssueList(event.target.innerText);
             }); // End-eventListener
 
             // Initialises the All button as the selected one
@@ -221,6 +216,37 @@ function loadDashboard(){
         } // End-for
     });
 } // End-loadDashboard
+
+function loadIssueList(filter) {
+    let issueLst = document.getElementById("issue-list");
+    let link = `bugTracker.php?a=Issue List&${filter}`;
+    ajaxGetReq(link, function(xmlhttp) {
+        issueLst.innerHTML = xmlhttp.responseText;
+
+        let issues = issueLst.getElementsByTagName("tbody")[0]
+            .getElementsByTagName("tr");
+        console.log(issues);
+        var i;
+        for (i of issues){
+            i.getElementsByTagName("td")[0]
+            .addEventListener("click", function(event) {
+                event.preventDefault();
+                let iid = event.target.getElementsByTagName("span")[0]
+                    .innerText;
+                iid = parseInt(iid.substring(1, iid.length));
+                loadIssueDetail(iid);
+            });
+        } // End-for
+    });
+} // End-loadIssueList
+
+function loadIssueDetail(iid){
+    let link = `bugTracker.php?a=Issue Detail&iid=${iid}`;
+    ajaxGetReq(link, function(xmlhttp) {
+        responseDiv.innerHTML = xmlhttp.responseText;
+        // #TODO add event listeners for the buttons
+    });
+} // End-loadIssueDetail
 
 function createUserListener(event) {
     event.preventDefault();

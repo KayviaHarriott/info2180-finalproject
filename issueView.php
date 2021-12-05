@@ -5,5 +5,4 @@
     <a id="my-tickets-button" href="#">MY TICKETS</a>
 </div>
 <div id="issue-list">
-    <?php include_once "issueList.php"; ?>
 </div>
