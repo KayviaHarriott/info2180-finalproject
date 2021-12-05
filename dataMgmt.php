@@ -165,7 +165,9 @@ function getIssues($filter = []) {
         $clauses = " WHERE " . (rtrim($clauses, " and "));
     } // End-if
 
-    $query = "SELECT * FROM
+    $query = "SELECT i.`id`, `title`, `description`, `type`, `status`,
+            `firstname`, `lastname`, `created_by`, `created`, `updated`
+        FROM
             (`issues` as i JOIN `users` as a
                 ON i.`assigned_to`=a.`id`){$clauses};";
 

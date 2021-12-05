@@ -234,19 +234,19 @@ function loadIssueList(filter) {
                 let iid = event.target.getElementsByTagName("span")[0]
                     .innerText;
                 iid = parseInt(iid.substring(1, iid.length));
-                loadIssueDetail(iid);
+                loadIssueDetails(iid);
             });
         } // End-for
     });
 } // End-loadIssueList
 
-function loadIssueDetail(iid){
+function loadIssueDetails(iid){
     let link = `bugTracker.php?a=Issue Detail&iid=${iid}`;
     ajaxGetReq(link, function(xmlhttp) {
         responseDiv.innerHTML = xmlhttp.responseText;
         // #TODO add event listeners for the buttons
     });
-} // End-loadIssueDetail
+} // End-loadIssueDetails
 
 function createUserListener(event) {
     event.preventDefault();
