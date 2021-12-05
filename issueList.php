@@ -11,7 +11,6 @@ if (array_key_exists("filter", $_GET)) {
             $filter = ["status" => "open"];
             break;
         case "MY TICKETS":
-            var_dump($_SESSION);
             $filter = ["assignedTo" => $_SESSION["user"]];
             break;
         default:

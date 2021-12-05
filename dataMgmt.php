@@ -218,7 +218,6 @@ function createIssue($iData) {
     } // End-if
 
     $data = filterDataArray($iData);
-    var_dump($data);
 
     $query = "INSERT INTO issues (`title`, `description`, `type`, `priority`,
             `assigned_to`, `created_by`)
@@ -233,7 +232,7 @@ function createIssue($iData) {
     ];
 
     $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
-    return json_encode($result);
+    return json_encode(["status" => "success"]);
 } // End-createIssue
 
 /**

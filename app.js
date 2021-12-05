@@ -141,6 +141,7 @@ function verifyUser(event){
         let link = `${baseUrl}?z=sign-in&email=${email}&passwd=${passwd}`;
         ajaxGetReq(link, function(xmlhttp){
             let res = JSON.parse(xmlhttp.responseText);
+            console.log(res);
             if (res.auth) {
                 bugTracker();
             }else{
@@ -148,6 +149,8 @@ function verifyUser(event){
                 alert("Invalid credentials");
             } // End-if
         });
+    }else{
+        alert("Invalid email");
     } // End-if
 } // End-verifyUser
 
@@ -233,15 +236,13 @@ function loadIssueDetails(iid){
             event.preventDefault();
             let link = `${baseUrl}?z=update-issue-status&id=${iid}&status=closed`;
             ajaxGetReq(link, function(xmlhttp) {
-                let res = JSON.parse(xmlhttp.responseText);
-                var a;
-                for (a of res) {
-                    if (a == "success"){
-                        loadIssueDetails(iid);
-                    }else{
-                        alert(res[a]);
-                    } // End-if
-                } // End-for
+                let temp = xmlhttp.responseText;
+                let res = JSON.parse(temp);
+                if (res.status == "success") {
+                    loadIssueDetails(iid);
+                }else{
+                    alert(res.status);
+                } // End-if
             });
         });
 
@@ -250,15 +251,13 @@ function loadIssueDetails(iid){
             event.preventDefault();
             let link = `${baseUrl}?z=update-issue-status&id=${iid}&status=in-progress`;
             ajaxGetReq(link, function(xmlhttp) {
-                let res = JSON.parse(xmlhttp.responseText);
-                var a;
-                for (a of res) {
-                    if (a == "success"){
-                        loadIssueDetails(iid);
-                    }else{
-                        alert(res[a]);
-                    } // End-if
-                } // End-for
+                let temp = xmlhttp.responseText;
+                let res = JSON.parse(temp);
+                if (res.status == "success") {
+                    loadIssueDetails(iid);
+                }else{
+                    alert(res.status);
+                } // End-if
             });
         });
     });
@@ -269,6 +268,7 @@ function createUserListener(event) {
     let newPgTitle = "New User";
     pageTitle.innerHTML = `<h1>${newPgTitle}</h1>`;
     let link = `bugTracker.php?a=${newPgTitle}`;
+
     ajaxGetReq(link, function(xmlhttp) {
         responseDiv.innerHTML = xmlhttp.responseText;
 
@@ -279,29 +279,30 @@ function createUserListener(event) {
                 "f-name": document.getElementById("f-name"),
                 "l-name": document.getElementById("l-name"),
                 "email": document.getElementById("email"),
-                "p-word": document.getElementById("p-word"),
+                "passwd": document.getElementById("p-word")
             };
 
             let link = `${baseUrl}?z=add-user`;
             var f;
-            for (f of fields) {
-                if (fields[f].value.length > 0) {
-                    link = `${link}&${f}=${fields[f].value}`;
-                } // End-if
+            for (f in fields) {
+                link = `${link}&${f}=${fields[f].value}`;
             } // End-for
             ajaxGetReq(link, function(xmlhttp) {
-                let res = JSON.parse(xmlhttp.responseText);
-                var a;
-                var err = "Invalid: ";
-                for (a of res) {
-                    if (a != "success") {
-                        err = `${err} ${a}\n`;
+                let temp = xmlhttp.responseText;
+                let res = JSON.parse(temp);
+                if (res.status != "success") {
+                    if (res.status != null) {
+                        alert(res.status);
                     }else{
-                        alert("User Created");
+                        var a;
+                        var err = "Invalid: ";
+                        for (a in res) {
+                            err = `${err}${a}\n`;
+                        } // End-for
+                        alert(err);
                     } // End-if
-                } // End-for
-                if (err != "Invalid: ") {
-                    alert(err);
+                }else{
+                    alert("User Created");
                 } // End-if
             });
         })
@@ -323,9 +324,9 @@ function createIssueListener(event) {
             let fields = {
                 "title": document.getElementById("i-title"),
                 "desc": document.getElementById("i-desc"),
-                "type": document.getElementById("i-assign"),
-                "pri": document.getElementById("i-type"),
-                "assign": document.getElementById("i-priority")
+                "assign": document.getElementById("i-assign"),
+                "type": document.getElementById("i-type"),
+                "pri": document.getElementById("i-priority")
             };
 
             let link = `${baseUrl}?z=add-issue`;
@@ -337,20 +338,15 @@ function createIssueListener(event) {
                 } // End-if
             } // End-for
             ajaxGetReq(link, function(xmlhttp) {
-                let res = JSON.parse(xmlhttp.responseText);
-                var a;
+                let temp = xmlhttp.responseText;
+                let res = JSON.parse(temp);
                 var err = "Invalid: ";
                 console.log(res);
-                // for (a of res) {
-                //     if (a != "success") {
-                //         err = `${err} ${a}\n`;
-                //     }else{
-                //         alert("Issue Created");
-                //     } // End-if
-                // } // End-for
-                // if (err != "Invalid: ") {
-                //     alert(err);
-                // } // End-if
+                if (res.status != "success") {
+                    alert(res.status);
+                }else{
+                    alert("Issue Created");
+                } // End-if
             });
         });
     });

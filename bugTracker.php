@@ -33,7 +33,7 @@ if (array_key_exists("a", $_GET)){
 
 if (array_key_exists("z", $_GET)){
     $action = filterData($_GET["z"]);
-    //header("Content-Type: application/json; charset=utf-8");
+    header("Content-Type: application/json; charset=utf-8");
 
     switch ($action) {
         case "add-user":
@@ -127,6 +127,14 @@ function addUser() {
                     break;
                 case "email":
                     if (preg_match($emailRegex, $v) != 1) {
+                        $err[$k] = false;
+                    } // End-if
+                    break;
+                case "passwd":
+                    if ((preg_match("#[a-zA-Z0-9]{8,}#", $v) != 1) &&
+                    (preg_match("#[A-Z]+#", $v) != 1) &&
+                    (preg_match("#[a-z]+#", $v) != 1) &&
+                    (preg_match("#[0-9]+#", $v) != 1)) {
                         $err[$k] = false;
                     } // End-if
                     break;
