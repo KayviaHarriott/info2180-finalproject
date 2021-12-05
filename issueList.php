@@ -1,5 +1,8 @@
 <?php
 include_once "dataMgmt.php";
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+} // End-if
 
 $filter = [];
 if (array_key_exists("filter", $_GET)) {
@@ -8,8 +11,8 @@ if (array_key_exists("filter", $_GET)) {
             $filter = ["status" => "open"];
             break;
         case "MY TICKETS":
-            // #TODO REMEMBER TO CHANGE TO USE THE ID THE PAGE SENDS
-            $filter = ["assignedTo" => 1];
+            var_dump($_SESSION);
+            $filter = ["assignedTo" => $_SESSION["user"]];
             break;
         default:
             $filter = [];

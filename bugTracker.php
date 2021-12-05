@@ -31,37 +31,69 @@ if (array_key_exists("a", $_GET)){
     endswitch;
 } // End-if
 
-if (array_key_exists("a", $_POST)){
-    $action = filterData($_POST["a"]);
-    header("Content-Type: application/json; charset=utf-8");
+if (array_key_exists("z", $_GET)){
+    $action = filterData($_GET["z"]);
+    //header("Content-Type: application/json; charset=utf-8");
 
     switch ($action) {
         case "add-user":
             echo addUser();
             break;
         case "sign-in":
-            echo verifyUser([
-                "email" => $_POST["email"],
-                "passwd" => $_POST["passwd"]
-            ]);
+            echo signIn();
             break;
         case "log-out":
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            } // End-if
+
+            session_unset();
+            session_destroy();
             echo json_encode(["status" => "LOGOUT"]);
             break;
         case "add-issue":
             echo addIssue();
             break;
         case "update-issue-status":
-            echo updateIssueStatus([
-                "id" => $_POST["id"],
-                "status" => $_POST["status"]
-            ]);
+            echo updateIssue();
             break;
         default:
             echo json_encode(["status" => "ERROR"]);
             break;
     } // End-switch-case
 } // End-if
+
+function signIn() {
+    $attributes = ["email", "passwd"];
+    $isValid = true;
+    foreach ($attributes as $a) {
+        $isValid = $isValid && array_key_exists($a, $_GET);
+    } // End-foreach
+
+    if ($isValid) {
+        return verifyUser([
+            "email" => $_GET["email"],
+            "passwd" => $_GET["passwd"]
+        ]);
+    } // End-if
+    return json_encode(["status" => "data missing"]);
+} // End-signIn
+
+function updateIssue() {
+    $attributes = ["id", "status"];
+    $isValid = true;
+    foreach ($attributes as $a) {
+        $isValid = $isValid && array_key_exists($a, $_GET);
+    } // End-foreach
+
+    if ($isValid) {
+        return updateIssueStatus([
+            "id" => $_GET["id"],
+            "status" => $_GET["status"]
+        ]);
+    } // End-if
+    return json_encode(["status" => "data missing"]);
+} // End-updateIssue
 
 function addUser() {
     $attributes = ["f-name", "l-name", "email", "passwd"];
@@ -76,12 +108,12 @@ function addUser() {
 
     $isValid = true;
     foreach ($attributes as $a) {
-        $isValid = $isValid && array_key_exists($a, $_POST);
+        $isValid = $isValid && array_key_exists($a, $_GET);
     } // End-foreach
 
     $err = [];
     if ($isValid) {
-        foreach ($_POST as $k => $v) {
+        foreach ($_GET as $k => $v) {
             switch ($k) {
                 case "f-name":
                     if (preg_match($realNameRegex, $v) != 1) {
@@ -107,7 +139,7 @@ function addUser() {
         if (count($err) == 0) {
             $data = [];
             foreach ($attributes as $a) {
-                $data[$a] = $_POST[$a];
+                $data[$a] = $_GET[$a];
             } // End-foreach
             return createUser($data);
         } // End-if
@@ -118,7 +150,7 @@ function addUser() {
 } // End-addUser
 
 function addIssue() {
-    $attributes = ["title", "desc", "type", "pri", "assign", "creator"];
+    $attributes = ["title", "desc", "type", "pri", "assign"];
     $alpha = "A-Za-z";
     $alphaNum = "${alpha}0-9";
     $tld = "\.[${alpha}][${alphaNum}]*";
@@ -130,12 +162,12 @@ function addIssue() {
 
     $isValid = true;
     foreach ($attributes as $a) {
-        $isValid = $isValid && array_key_exists($a, $_POST);
+        $isValid = $isValid && array_key_exists($a, $_GET);
     } // End-foreach
 
     $err = [];
     if ($isValid) {
-        foreach ($_POST as $k => $v) {
+        foreach ($_GET as $k => $v) {
             switch ($k) {
                 case "title":
                     if (preg_match("/^[\w]+$/", $v) != 1) {
@@ -171,7 +203,7 @@ function addIssue() {
         if (count($err) == 0) {
             $data = [];
             foreach ($attributes as $a) {
-                $data[$a] = $_POST[$a];
+                $data[$a] = $_GET[$a];
             } // End-foreach
             return createIssue($data);
         } // End-if

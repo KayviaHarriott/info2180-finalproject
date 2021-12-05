@@ -213,6 +213,10 @@ function createUser($uData) {
  * @return JSON
  */
 function createIssue($iData) {
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    } // End-if
+
     $data = filterDataArray($iData);
     var_dump($data);
 
@@ -225,8 +229,7 @@ function createIssue($iData) {
         ":iType" => [$data["type"], PDO::PARAM_STR],
         ":iPri" => [$data["pri"], PDO::PARAM_STR],
         ":iAssign" => [$data["assign"], PDO::PARAM_INT],
-        //":iCreator" => [$data["creator"], PDO::PARAM_INT]
-        ":iCreator" => [1, PDO::PARAM_INT]
+        ":iCreator" => [$_SESSION["user"], PDO::PARAM_INT]
     ];
 
     $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
@@ -298,17 +301,22 @@ function verifyUser($uData) {
     $bugTrackerDB = connectToDB();
     $query = "SELECT `id`, `firstname`, `lastname` FROM users
         WHERE `email` = :uEmail and `password` = :uPasswd";
+        //WHERE `email` = 'admin@project2.com' and `password` = 'password123'";
 
     $binds = [":uEmail" => [$data["email"], PDO::PARAM_STR],
-        //":uPasswd" => [password_hash($data["passwd"], PASSWORD_DEFAULT), PDO::PARAM_STR]
         ":uPasswd" => [$data["passwd"], PDO::PARAM_STR]
+        //":uPasswd" => [password_hash($data["passwd"], PASSWORD_DEFAULT), PDO::PARAM_STR]
     ];
 
     $result = execQuery($query, $binds, PDO::FETCH_ASSOC);
 
-    if ($result != []) {
-        $result["auth"] = true;
-        return json_encode($result);
+    if (count($result) == 1) {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        } // End-if
+
+        $_SESSION["user"] = $result[0]["id"];
+        return json_encode(["auth" => true]);
     }else{
         return json_encode(["auth" => false]);
     } // End-if

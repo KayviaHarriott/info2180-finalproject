@@ -79,7 +79,7 @@ function ajaxPostReq(url, data, type = "", callback){
 // Global Variables
 //----------------------------------------------------------------------------
 
-const baseUrl = window.location.origin;
+const baseUrl = `${window.location.origin}/bugTracker.php`;
 let responseDiv;
 let pageTitle;
 let asideBtns;
@@ -138,33 +138,17 @@ function verifyUser(event){
     let passwd = document.getElementById("p-word").value;
 
     if (isValidEmail(email)) {
-        let data = {
-            "a": "sign-in",
-            "email": email,
-            "passwd": passwd
-        };
-        ajaxPostReq(`${baseUrl}/bugTracker.php`, data, "", function(res){
-            res.text().then(function(r) {
-                console.log("*----------*");
-                console.log(r);
-                //console.log(JSON.parse(`${r}\n`));
-                //console.log(JSON.parse(
-                //    "\{\"0\": \{\"id\": \"1\",\"firstname\": \"John\",\"lastname\": \"Doe\"},\"auth\": true}"
-                //));
-                console.log("*----------*");
-            });
-            console.log("----------");
-            console.log(res.url);
-            console.log(res.headers.get("Content-Type"));
-            console.log(res.ok);
-            console.log(res.type);
-            console.log("----------");
+        let link = `${baseUrl}?z=sign-in&email=${email}&passwd=${passwd}`;
+        ajaxGetReq(link, function(xmlhttp){
+            let res = JSON.parse(xmlhttp.responseText);
+            if (res.auth) {
+                bugTracker();
+            }else{
+                console.log(res);
+                alert("Invalid credentials");
+            } // End-if
         });
     } // End-if
-
-    // #TODO - REMEMBER TO PUT THIS BACK INSIDE THE IF SO IT'S ACTUALLY
-    // RESTRICTED TO VALID LOGINS
-    bugTracker();
 } // End-verifyUser
 
 function bugTracker() {
@@ -247,35 +231,35 @@ function loadIssueDetails(iid){
         document.getElementById("mark-closed-button")
         .addEventListener("click", function(event) {
             event.preventDefault();
-            let link = `${baseUrl}`;
-            let data = {
-                "id": iid,
-                "status": "closed"
-            };
-            //ajaxPostReq();
-            //if (res.status == "success"){
-            //    loadIssueDetails(iid);
-            //}else{
-            //    alert(res.status);
-            //} // End-if
-            alert("closed");
+            let link = `${baseUrl}?z=update-issue-status&id=${iid}&status=closed`;
+            ajaxGetReq(link, function(xmlhttp) {
+                let res = JSON.parse(xmlhttp.responseText);
+                var a;
+                for (a of res) {
+                    if (a == "success"){
+                        loadIssueDetails(iid);
+                    }else{
+                        alert(res[a]);
+                    } // End-if
+                } // End-for
+            });
         });
 
         document.getElementById("mark-in-progress-button")
         .addEventListener("click", function(event) {
             event.preventDefault();
-            let link = `${baseUrl}`;
-            let data = {
-                "id": iid,
-                "status": "in-progress"
-            };
-            //ajaxPostReq();
-            //if (res.status == "success"){
-            //    loadIssueDetails(iid);
-            //}else{
-            //    alert(res.status);
-            //} // End-if
-            alert("In progress");
+            let link = `${baseUrl}?z=update-issue-status&id=${iid}&status=in-progress`;
+            ajaxGetReq(link, function(xmlhttp) {
+                let res = JSON.parse(xmlhttp.responseText);
+                var a;
+                for (a of res) {
+                    if (a == "success"){
+                        loadIssueDetails(iid);
+                    }else{
+                        alert(res[a]);
+                    } // End-if
+                } // End-for
+            });
         });
     });
 } // End-loadIssueDetails
@@ -298,18 +282,29 @@ function createUserListener(event) {
                 "p-word": document.getElementById("p-word"),
             };
 
-            let link = `${baseUrl}`;
-            // Send to backend
-            // if (res.status != "success") {
-            //     var e;
-            //     for (e of res) {
-            //         alert("Invalid ${e}");
-            //     } // End-for
-            // }else{
-            //     alert("user created");
-            // } // End-if
+            let link = `${baseUrl}?z=add-user`;
+            var f;
+            for (f of fields) {
+                if (fields[f].value.length > 0) {
+                    link = `${link}&${f}=${fields[f].value}`;
+                } // End-if
+            } // End-for
+            ajaxGetReq(link, function(xmlhttp) {
+                let res = JSON.parse(xmlhttp.responseText);
+                var a;
+                var err = "Invalid: ";
+                for (a of res) {
+                    if (a != "success") {
+                        err = `${err} ${a}\n`;
+                    }else{
+                        alert("User Created");
+                    } // End-if
+                } // End-for
+                if (err != "Invalid: ") {
+                    alert(err);
+                } // End-if
+            });
         })
-        alert("Create User");
     });
 } // End-createUserListener
 
@@ -333,28 +328,35 @@ function createIssueListener(event) {
                 "assign": document.getElementById("i-priority")
             };
 
-            let link = `${baseUrl}`;
-            // Send to backend
-            // remember to send the session Id in the creator param
-
-            // if (res.status != "success") {
-            //     var e;
-            //     for (e of res) {
-            //         alert("Invalid ${e}");
-            //     } // End-for
-            // }else{
-            //     alert("user created");
-            // } // End-if
+            let link = `${baseUrl}?z=add-issue`;
+            var f;
+            console.log(fields);
+            for (f in fields) {
+                if (fields[f].value.length > 0) {
+                    link = `${link}&${f}=${fields[f].value}`;
+                } // End-if
+            } // End-for
+            ajaxGetReq(link, function(xmlhttp) {
+                let res = JSON.parse(xmlhttp.responseText);
+                var a;
+                var err = "Invalid: ";
+                console.log(res);
+                // for (a of res) {
+                //     if (a != "success") {
+                //         err = `${err} ${a}\n`;
+                //     }else{
+                //         alert("Issue Created");
+                //     } // End-if
+                // } // End-for
+                // if (err != "Invalid: ") {
+                //     alert(err);
+                // } // End-if
+            });
         });
-        alert("Create Issue");
     });
 } // End-createIssueListener
 
 function logoutListener(event) {
     event.preventDefault();
-
-    // #TODO
-    // I imagine there would be extra code here to close the PHP session
-
     loadSignIn();
 } // End-logoutListener
